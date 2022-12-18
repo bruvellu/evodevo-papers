@@ -1,6 +1,10 @@
 # :bookmark_tabs: EvoDevo Papers
 
-Bot that posts the latest research papers about evolutionary developmental biology.
+A bot that posts the latest papers about evolutionary developmental biology to Twitter.
+
+**Follow:** [@evodevo_papers](https://twitter.com/evodevo_papers)
+
+The initial implementation was based on the [phy_papers](https://github.com/roblanf/phypapers).
 
 ## Sources
 
@@ -14,6 +18,6 @@ Bot that posts the latest research papers about evolutionary developmental biolo
 
 ## Maintainer
 
-- [Bruno C. Vellutini](https://brunovellutini.com/) / [@bruvellu@mastodon.social](https://mastodon.social/@bruvellu)
+- **Bruno C. Vellutini** / [@bruvellu@mastodon.social](https://mastodon.social/@bruvellu) / [brunovellutini.com](https://brunovellutini.com/)
 
-**Disclaimer:** I’m not affiliated to any journal, service, or website. I created this bot to serve the EvoDevo community. If you have ideas for improvements and on how to make it more useful let me know!
+**Disclaimer:** I’m not affiliated to any journal, service, or website. I created this bot to serve the EvoDevo community. If you have ideas for improvements or suggestions to make it more useful let me know!
