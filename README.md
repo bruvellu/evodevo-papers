@@ -20,7 +20,7 @@ Follow the latest papers about evolutionary developmental biology (evo-devo).
 
 ## Author
 
-- **Bruno C. Vellutini** / [@bruvellu@mastodon.social](https://mastodon.social/@bruvellu) / [brunovellutini.com](https://brunovellutini.com/)
+- **Bruno C. Vellutini:** [brunovellutini.com](https://brunovellutini.com/) ([@bruvellu](https://mastodon.social/@bruvellu))
 
 ## Disclaimer
 
