@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  <title>EvoDevo Papers</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/" class="current">Home</a></li>
+        <li><a rel="me" href="https://botsin.space/@evodevo_papers">Mastodon</a></li>
+        <li><a rel="me" href="https://github.com/bruvellu/evodevo-papers">GitHub</a></li>
+      </ul>
+    </nav>
+    <h1>📑 EvoDevo Papers</h1>
+    <p>Streaming the latest papers about evolutionary developmental biology</p>
+  </header>
+  <main>
+    <section>
+      <h2>Latest</h2>
+      <ul>
+        {% for status in statuses %}
+        <li>[ <a href="{{ status.url }}">{{ status.created_at }}</a> ] {{ status.post.title }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section>
+      <h2>Sources</h2>
+      <ul>
+        {% for source in sources %}
+        <li><strong><a href="{{ source.feed_url }}" title="Last update: {{ source.last_success }}">{{ source.name }}</a></strong></li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section>
+      <h2>Disclaimer</h2>
+      <p>I’m not affiliated to any journal or publisher and created this bot to serve the EvoDevo community. If you have ideas for improvements or suggestions to make it more useful, let me know!</p>
+    </section>
+  </main>
+  <footer>
+    <p>2024 <strong>EvoDevo Papers</strong> | <a rel="me" href="https://botsin.space/@evodevo_papers">@evodevo_papers@botsin.space</a><br>Made with love by <a href="https://brunovellutini.com">Bruno C. Vellutini</a> | <a href="https://biologists.social/@bruvellu">@bruvellu@biologists.social</a></p>
+  </footer>
+</body>
+</html>
