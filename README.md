@@ -1,6 +1,6 @@
 # :bookmark_tabs: EvoDevo Papers
 
-Follow the latest papers about evolutionary developmental biology (evo-devo).
+A bot that posts the latest research papers in the field of evolutionary developmental biology (or evo-devo).
 
 - **Website:** [evodevo.brunovellutini.com](https://evodevo.brunovellutini.com)
 - **Mastodon:** [@evodevo_papers@botsin.space](https://botsin.space/@evodevo_papers)
