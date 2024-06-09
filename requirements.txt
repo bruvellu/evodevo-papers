@@ -1,4 +1,4 @@
-django==4.2.9
+django
 django-feed-reader
 django-distill
 Mastodon.py
