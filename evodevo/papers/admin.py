@@ -3,7 +3,6 @@ from papers import models
 
 
 class StatusAdmin(admin.ModelAdmin):
-
     list_display = ['id', 'text', 'published', 'created_at', 'url']
 
 

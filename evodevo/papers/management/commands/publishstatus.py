@@ -12,6 +12,8 @@ class Command(BaseCommand):
         # Get the oldest unpublished status object
         status = Status.objects.filter(published=False).order_by('id').first()
 
+        # TODO: Pass client account as an argument
+
         if status:
             client = Client.objects.get(account='@evodevo_papers@botsin.space')
             mastodon = Mastodon(access_token=client.access_token,
