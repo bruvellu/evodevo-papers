@@ -15,7 +15,7 @@ class Command(BaseCommand):
         # TODO: Pass client account as an argument
 
         if status:
-            client = Client.objects.get(account='@evodevo_papers@botsin.space')
+            client = Client.objects.get(account='@evodevo_papers@biologists.social')
             mastodon = Mastodon(access_token=client.access_token,
                                 api_base_url=client.api_base_url)
             response = mastodon.status_post(status.text,

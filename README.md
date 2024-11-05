@@ -3,7 +3,7 @@
 A bot that posts the latest research papers in the field of evolutionary developmental biology (or evo-devo).
 
 - **Website:** [evodevo.brunovellutini.com](https://evodevo.brunovellutini.com)
-- **Mastodon:** [@evodevo_papers@botsin.space](https://botsin.space/@evodevo_papers)
+- **Mastodon:** [@evodevo_papers@biologists.social](https://biologists.social/@evodevo_papers)
 - **Twitter:** [@evodevo_papers@twitter.com](https://twitter.com/evodevo_papers) (defunct)
 
 ## Author
