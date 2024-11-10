@@ -4,32 +4,32 @@ from bot.models import Post
 
 
 class Command(BaseCommand):
-    help = 'Creates statuses for new feed entries.'
+    help = 'Creates posts for new feed entries.'
 
     def handle(self, *args, **options):
 
-        # Get entry IDs for existing statuses
-        entries_with_status = Post.objects.values('entry_id')
+        # Get entry IDs for existing posts
+        entries_with_a_post = Post.objects.values('entry_id')
 
         # Exclude entries that already have a Post instance
-        entries_without_status = Entry.objects.exclude(id__in=entries_with_status)
+        entries_without_a_post = Entry.objects.exclude(id__in=entries_with_a_post)
 
         # Exclude entries that are not articles (case insensitive)
-        entries_without_status = entries_without_status.exclude(title__istartswith='issue information').exclude(title__istartswith='front cover')
+        entries_without_a_post = entries_without_a_post.exclude(title__istartswith='issue information').exclude(title__istartswith='front cover')
 
         # Order by oldest to newest using the creation date
-        entries_without_status = entries_without_status.order_by('created')
+        entries_without_a_post = entries_without_a_post.order_by('created')
 
         # Inform how many new entries will be added
-        self.stdout.write(f'{entries_without_status.count()} new feed entries!')
+        self.stdout.write(f'{entries_without_a_post.count()} new feed entries!')
 
-        # Loop over new feed entries and create statuses
-        for entry in entries_without_status:
-            status = Post(entry=entry)
-            status.generate_text()
-            status.save()
+        # Loop over new feed entries and create posts
+        for entry in entries_without_a_post:
+            post = Post(entry=entry)
+            post.generate_text()
+            post.save()
 
-            self.stdout.write(self.style.SUCCESS(f'Post id={status.id}: '),
+            self.stdout.write(self.style.SUCCESS(f'Post id={post.id}: '),
                               ending='')
-            self.stdout.write(f'{status.text}')
+            self.stdout.write(f'{post.text}')
 
