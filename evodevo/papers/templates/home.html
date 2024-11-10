@@ -6,6 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="fediverse:creator" content="@evodevo_papers@biologists.social">
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style>
+        .post-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .feed-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        .timestamp {
+          color: var(--text-light);
+        }
+    </style>
   <title>EvoDevo Papers</title>
 </head>
 <body>
@@ -23,19 +38,21 @@
   <main>
     <section>
       <h2>Latest</h2>
-      <ul>
-        {% for status in statuses %}
-        <li><strong><a href="{{ status.url }}">{{ status.created_at }}</a></strong> | {{ status.post.title }}</li>
-        {% endfor %}
-      </ul>
+      {% for status in statuses %}
+      <div class="post-item">
+        <strong><a href="{{ status.url }}">{{ status.post.title }}</a></strong>
+        <span class="timestamp">{{ status.created_at }}</span>
+      </div>
+      {% endfor %}
     </section>
     <section>
-      <h2>Sources</h2>
-      <ul>
-        {% for source in sources %}
-        <li><strong><a href="{{ source.feed_url }}" title="Last update: {{ source.last_success }}">{{ source.name }}</a></strong></li>
-        {% endfor %}
-      </ul>
+      <h2>Feeds</h2>
+      {% for feed in feeds %}
+      <div class="feed-item">
+          <strong><a href="{{ feed.source.feed_url }}">{{ feed.name }}</a></strong>
+          <span class="timestamp">{{ feed.source.last_change }}</span>
+      </div>
+      {% endfor %}
     </section>
     <section>
       <h2>Disclaimer</h2>
