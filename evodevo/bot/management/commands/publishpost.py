@@ -20,7 +20,6 @@ class Command(BaseCommand):
                                             language='en')
 
             post.created_at = response['created_at']
-            post.publication_id = str(response['id'])
             post.url = response['url']
             post.response = response
             post.published = True
