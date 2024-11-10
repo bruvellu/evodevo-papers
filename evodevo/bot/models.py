@@ -29,8 +29,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(null=True, blank=True)
     url = models.URLField(blank=True)
 
-    def generate_status_text(self):
-        template = f'{self.post.title} {self.post.link} #EvoDevo #Papers'
+    def generate_text(self):
+        template = f'{self.entry.title} {self.entry.link} #EvoDevo #Papers'
         self.text = template
         return self.text
 
