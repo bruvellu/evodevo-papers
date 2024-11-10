@@ -1,4 +1,5 @@
 from django.db import models
+from feeds.models import Post as Entry
 from feeds.models import Source
 
 
@@ -18,3 +19,22 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Post(models.Model):
+    entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
+    text = models.TextField(blank=True)
+    response = models.TextField(blank=True)
+    published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(null=True, blank=True)
+    url = models.URLField(blank=True)
+
+    def generate_status_text(self):
+        template = f'{self.post.title} {self.post.link} #EvoDevo #Papers'
+        self.text = template
+        return self.text
+
+    def __str__(self):
+        return self.text
+
+
