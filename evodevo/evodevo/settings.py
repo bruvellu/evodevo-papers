@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'bot',
     'feeds',
     'papers',
-    'clients',
     'django_distill',
 ]
 

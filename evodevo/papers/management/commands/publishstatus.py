@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from papers.models import Status
-from clients.models import Client
+from bot.models import Client
 from mastodon import Mastodon
 
 
