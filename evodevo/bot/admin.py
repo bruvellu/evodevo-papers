@@ -7,7 +7,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 class FeedAdmin(admin.ModelAdmin):
-    list_display = ['name', 'source']
+    list_display = ['name', 'source', 'source__live', 'source__status_code', 'source__last_change']
 
 
 admin.site.register(models.Client, ClientAdmin)
