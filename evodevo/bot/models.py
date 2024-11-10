@@ -14,7 +14,7 @@ class Client(models.Model):
 
 class Feed(models.Model):
     name = models.CharField(max_length=100)
-    source = models.OneToOneField(Source, null=True, on_delete=models.SET_NULL)
+    source = models.OneToOneField(Source, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
