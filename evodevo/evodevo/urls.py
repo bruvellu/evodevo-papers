@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django_distill import distill_path
-from papers import views
+from bot.views import home
 
 urlpatterns = [
-    distill_path('', views.home, name='home'),
+    distill_path('', home, name='home'),
     path('admin/', admin.site.urls),
 ]
