@@ -37,10 +37,10 @@
   <main>
     <section>
       <h2>Latest</h2>
-      {% for status in statuses %}
+      {% for post in posts %}
       <p class="post-item">
-        <strong><a href="{{ status.url }}">{{ status.post.title }}</a></strong>
-        <span class="timestamp">{{ status.created_at }}</span>
+        <strong><a href="{{ post.url }}">{{ post.entry.title }}</a></strong>
+        <span class="timestamp">{{ post.created_at }}</span>
       </p>
       {% endfor %}
     </section>
