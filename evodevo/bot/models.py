@@ -1,4 +1,5 @@
 from django.db import models
+from feeds.models import Source
 
 
 class Client(models.Model):
@@ -9,3 +10,11 @@ class Client(models.Model):
 
     def __str__(self):
         return self.account
+
+
+class Feed(models.Model):
+    name = models.CharField(max_length=100)
+    source = models.OneToOneField(Source, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
