@@ -7,14 +7,10 @@
   <meta name="fediverse:creator" content="@evodevo_papers@biologists.social">
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <style>
-        .post-item {
+        .item {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-        .feed-item {
-            display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
         }
         .timestamp {
           color: var(--text-light);
@@ -38,19 +34,20 @@
     <section>
       <h2>Latest</h2>
       {% for post in posts %}
-      <p class="post-item">
+      <p class="item">
         <strong><a href="{{ post.url }}">{{ post.entry.title }}</a></strong>
-        <span class="timestamp">{{ post.created_at }}</span>
+        <span class="timestamp"><strong>Posted:</strong> {{ post.created_at }}</span>
       </p>
       {% endfor %}
     </section>
     <section>
       <h2>Feeds</h2>
       {% for feed in feeds %}
-      <div class="feed-item">
+      <p class="item">
           <strong><a href="{{ feed.source.feed_url }}">{{ feed.name }}</a></strong>
-          <span class="timestamp">{{ feed.source.last_change }}</span>
-      </div>
+          <span class="description">{{ feed.description }}</span>
+          <span class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</span>
+      </p>
       {% endfor %}
     </section>
     <section>
