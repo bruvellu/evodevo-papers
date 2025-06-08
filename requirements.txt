@@ -1,4 +1,4 @@
-django
-django-feed-reader
-django-distill
-Mastodon.py
+django==5.1.3
+django-feed-reader==2.0.0
+django-distill==3.2.7
+Mastodon.py==1.8.1
