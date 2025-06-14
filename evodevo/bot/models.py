@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from feeds.models import Post as Entry
 from feeds.models import Source
 
@@ -20,6 +21,10 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('feed', args=(self.id,))
+
 
 
 class Post(models.Model):

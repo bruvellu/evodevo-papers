@@ -14,3 +14,13 @@ def feeds(request):
     feeds = Feed.objects.order_by('name')
     context = {'feeds': feeds}
     return render(request, 'feeds.html', context)
+
+
+def feed(request, id):
+    feed = Feed.objects.get(id=id)
+    entries = feed.source.posts.order_by('-created')
+    context = {
+        'feed': feed,
+        'entries': entries,
+    }
+    return render(request, 'feed.html', context)

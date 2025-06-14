@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block main %}
+<section>
+  <h2>{{ feed.name }} (<a href="{{ feed.source.feed_url }}">URL</a>)</h2>
+  <p class="description">{{ feed.description }}</p>
+  <p class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</p>
+  <h3>Entries</h3>
+  {% for entry in entries %}
+  <p class="item">
+    <strong><a href="{{ entry.link }}">{{ entry.title|safe }}</a></strong>
+    <span class="timestamp"><strong>Created:</strong> {{ entry.created }}</span>
+  </p>
+  {% endfor %}
+</section>
+{% endblock %}

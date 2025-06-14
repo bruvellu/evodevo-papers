@@ -4,7 +4,7 @@
   <h2>Feeds</h2>
   {% for feed in feeds %}
   <p class="item">
-    <strong><a href="{{ feed.source.feed_url }}">{{ feed.name }}</a></strong>
+    <strong><a href="{{ feed.get_absolute_url }}">{{ feed.name }}</a></strong>
     <span class="description">{{ feed.description }}</span>
     <span class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</span>
   </p>
