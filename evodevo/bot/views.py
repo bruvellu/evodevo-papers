@@ -8,3 +8,9 @@ def home(request):
     context = {'feeds': feeds,
                'posts': posts,}
     return render(request, 'home.html', context)
+
+
+def feeds(request):
+    feeds = Feed.objects.order_by('name')
+    context = {'feeds': feeds}
+    return render(request, 'feeds.html', context)
