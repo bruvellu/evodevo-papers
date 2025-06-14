@@ -1,76 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="fediverse:creator" content="@evodevo_papers@biologists.social">
-  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <style>
-        .item {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-        }
-        .timestamp {
-          color: var(--text-light);
-        }
-    </style>
-  <title>EvoDevo Papers</title>
-</head>
-<body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="/" class="current">Home</a></li>
-        <li><a rel="me" href="https://biologists.social/@evodevo_papers">Mastodon</a></li>
-        <li><a rel="me" href="https://github.com/bruvellu/evodevo-papers">GitHub</a></li>
-      </ul>
-    </nav>
-    <h1>📑 EvoDevo Papers</h1>
-    <p>Streaming the latest papers in evolutionary developmental biology</p>
-  </header>
-  <main>
-    <section>
-      <h2>Latest</h2>
-      {% for post in posts %}
-      <p class="item">
-        <strong><a href="{{ post.url }}">{{ post.entry.title }}</a></strong>
-        <span class="timestamp"><strong>Posted:</strong> {{ post.created_at }}</span>
-      </p>
-      {% endfor %}
-    </section>
-    <section>
-      <h2>Feeds</h2>
-      {% for feed in feeds %}
-      <p class="item">
-          <strong><a href="{{ feed.source.feed_url }}">{{ feed.name }}</a></strong>
-          <span class="description">{{ feed.description }}</span>
-          <span class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</span>
-      </p>
-      {% endfor %}
-    </section>
-    <section>
-      <h2>About</h2>
-      <p><strong>EvoDevo Papers</strong> was inspired by the pioneering <a href="https://twitter.com/fly_papers">@fly_papers</a> (RIP) and <a href="https://twitter.com/phy_papers">@phy_papers</a>. I created the initial version based on the <a href="https://caseybergman.wordpress.com/2014/02/24/keeping-up-with-the-scientific-literature-using-twitterbots-the-flypapers-experiment/">fly_papers post</a> and the <a href="https://github.com/roblanf/phypapers">phy_papers documentation</a>, using automation services like <em>dlvrit</em>, <em>IFTTT</em>, and <em>Zapier</em>. It operated as a Twitter bot from 2015 to 2023, but after the takeover and subsequent API changes, it could no longer post there.</p>
-      <p>Meanwhile, <strong>EvoDevo Papers</strong> has been posting on Mastodon since 2022. The first version was based on <a href="https://gitlab.com/chaica/feed2toot/">feed2toot</a>. However, due to recurrent issues with this setup, I rebuilt the bot from scratch to enhance its robustness and flexibility. The new version, which has been running smoothly since January 2024, is powered by:</p>
+{% extends 'base.html' %}
+{% block main %}
 
-      <ul>
-        <li><a href="https://www.djangoproject.com">Django</a> (a Python web framework)</li>
-        <li><a href="https://github.com/xurble/django-feed-reader">django-feed-reader</a> (a Django package for feed consumption)</li>
-        <li><a href="https://django-distill.com/">django-distill</a> (a Django package for generating static websites)</li>
-        <li><a href="https://github.com/halcy/Mastodon.py">Mastodon.py</a> (a Python library for the Mastodon API)</li>
-        <li><a href="https://simplecss.org">Simple.css</a> (a CSS framework for semantic HTML)</li>
-      </ul>
+<section>
+  <h2>Latest</h2>
+  {% for post in posts %}
+  <p class="item">
+    <strong><a href="{{ post.url }}">{{ post.entry.title }}</a></strong>
+    <span class="timestamp"><strong>Posted:</strong> {{ post.created_at }}</span>
+  </p>
+  {% endfor %}
+</section>
 
-      <h3>Disclaimer</h3>
-      <p class="notice">
-      <strong>EvoDevo Papers</strong> is not affiliated to any journal or publisher. Its purpose is to serve the EvoDevo community. If you have suggestions or ideas for improvement to make this bot more useful, please <a href="https://github.com/bruvellu/evodevo-papers/issues">let me know</a>!
-      </p>
-    </section>
-  </main>
-  <footer>
-    <p>2024 <strong>EvoDevo Papers</strong> | <a rel="me" href="https://biologists.social/@evodevo_papers">@evodevo_papers@biologists.social</a><br>Made with love by <a href="https://brunovellutini.com">Bruno C. Vellutini</a> | <a href="https://biologists.social/@bruvellu">@bruvellu@biologists.social</a></p>
-  </footer>
-</body>
-</html>
+<section>
+  <h2>Feeds</h2>
+  {% for feed in feeds %}
+  <p class="item">
+    <strong><a href="{{ feed.source.feed_url }}">{{ feed.name }}</a></strong>
+    <span class="description">{{ feed.description }}</span>
+    <span class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</span>
+  </p>
+  {% endfor %}
+</section>
+
+<section>
+  <h2>About</h2>
+  <p><strong>EvoDevo Papers</strong> was inspired by the pioneering <a href="https://twitter.com/fly_papers">@fly_papers</a> (RIP) and <a href="https://twitter.com/phy_papers">@phy_papers</a>. I created the initial version based on the <a href="https://caseybergman.wordpress.com/2014/02/24/keeping-up-with-the-scientific-literature-using-twitterbots-the-flypapers-experiment/">fly_papers post</a> and the <a href="https://github.com/roblanf/phypapers">phy_papers documentation</a>, using automation services like <em>dlvrit</em>, <em>IFTTT</em>, and <em>Zapier</em>. It operated as a Twitter bot from 2015 to 2023, but after the takeover and subsequent API changes, it could no longer post there.</p>
+  <p>Meanwhile, <strong>EvoDevo Papers</strong> has been posting on Mastodon since 2022. The first version was based on <a href="https://gitlab.com/chaica/feed2toot/">feed2toot</a>. However, due to recurrent issues with this setup, I rebuilt the bot from scratch to enhance its robustness and flexibility. The new version, which has been running smoothly since January 2024, is powered by:</p>
+  <ul>
+    <li><a href="https://www.djangoproject.com">Django</a> (a Python web framework)</li>
+    <li><a href="https://github.com/xurble/django-feed-reader">django-feed-reader</a> (a Django package for feed consumption)</li>
+    <li><a href="https://django-distill.com/">django-distill</a> (a Django package for generating static websites)</li>
+    <li><a href="https://github.com/halcy/Mastodon.py">Mastodon.py</a> (a Python library for the Mastodon API)</li>
+    <li><a href="https://simplecss.org">Simple.css</a> (a CSS framework for semantic HTML)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Disclaimer</h2>
+  <p class="notice">
+    <strong>EvoDevo Papers</strong> is not affiliated to any journal or publisher. Its purpose is to serve the EvoDevo community. If you have suggestions or ideas for improvement to make this bot more useful, please <a href="https://github.com/bruvellu/evodevo-papers/issues">let me know</a>!
+  </p>
+</section>
+
+{% endblock %}
