@@ -12,6 +12,11 @@ def home(request):
     return render(request, "home.html", context)
 
 
+def about(request):
+    context = {}
+    return render(request, "about.html", context)
+
+
 def feeds(request):
     feeds = Feed.objects.order_by("name")
     context = {"feeds": feeds}
