@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0002_feed'),
+        ("bot", "0002_feed"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='feed',
-            name='name',
+            model_name="feed",
+            name="name",
             field=models.CharField(max_length=100),
         ),
     ]

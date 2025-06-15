@@ -4,21 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Client',
+            name="Client",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('account', models.CharField(max_length=50)),
-                ('api_base_url', models.CharField(blank=True, max_length=50)),
-                ('access_token', models.CharField(blank=True, max_length=50)),
-                ('is_active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("account", models.CharField(max_length=50)),
+                ("api_base_url", models.CharField(blank=True, max_length=50)),
+                ("access_token", models.CharField(blank=True, max_length=50)),
+                ("is_active", models.BooleanField(default=True)),
             ],
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0005_post'),
+        ("bot", "0005_post"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='feed',
-            name='description',
+            model_name="feed",
+            name="description",
             field=models.TextField(blank=True),
         ),
     ]

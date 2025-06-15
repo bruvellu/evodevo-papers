@@ -5,23 +5,38 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0004_alter_feed_source'),
-        ('feeds', '0015_source_alt_url'),
+        ("bot", "0004_alter_feed_source"),
+        ("feeds", "0015_source_alt_url"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField(blank=True)),
-                ('response', models.TextField(blank=True)),
-                ('published', models.BooleanField(default=False)),
-                ('created_at', models.DateTimeField(blank=True, null=True)),
-                ('url', models.URLField(blank=True)),
-                ('entry', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='feeds.post')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("text", models.TextField(blank=True)),
+                ("response", models.TextField(blank=True)),
+                ("published", models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(blank=True, null=True)),
+                ("url", models.URLField(blank=True)),
+                (
+                    "entry",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="feeds.post",
+                    ),
+                ),
             ],
         ),
     ]
