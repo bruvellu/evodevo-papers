@@ -5,8 +5,8 @@ from bot.views import home, feeds, feed
 from bot.models import Feed
 
 def get_feeds():
-    for feed in Feed.objects.all():
-        yield {'id': feed.id}
+    for feed_obj in Feed.objects.all():
+        yield {'id': feed_obj.id}
 
 urlpatterns = [
     distill_path('', home, name='home'),

@@ -29,5 +29,5 @@ class Command(BaseCommand):
             self.stdout.write(f'{post.url}')
 
         else:
-            self.stdout.write(f'No new posts to publish!')
+            self.stdout.write('No new posts to publish!')
 
