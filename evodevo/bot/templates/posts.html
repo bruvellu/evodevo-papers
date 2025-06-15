@@ -4,8 +4,9 @@
   <h2>Posts</h2>
   {% for post in posts %}
   <p class="item">
-    <strong><a href="{{ post.get_absolute_url }}">{{ post.text }}</a></strong>
+    <strong>{{ post.text|urlize }}</strong>
     <span class="timestamp"><strong>Posted:</strong> {{ post.created_at }}</span>
+    <span><a href="{{ post.get_absolute_url }}">Post</a> | <a href="{{ post.url }}">Mastodon</a></span>
   </p>
   {% endfor %}
 </section>

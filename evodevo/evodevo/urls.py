@@ -19,7 +19,7 @@ urlpatterns = [
     distill_path("", home, name="home"),
     distill_path("feeds/", feeds, name="feeds"),
     distill_path("feed/<int:id>/", feed, name="feed", distill_func=get_feeds),
-    distill_path("posts/", feeds, name="posts"),
+    distill_path("posts/", posts, name="posts"),
     distill_path("post/<int:id>/", post, name="post", distill_func=get_posts),
     path("admin/", admin.site.urls),
 ]
