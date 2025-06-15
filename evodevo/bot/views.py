@@ -26,3 +26,15 @@ def feed(request, id):
         "entries": entries,
     }
     return render(request, "feed.html", context)
+
+
+def posts(request):
+    posts = Post.objects.filter(published=True).order_by("-created_at")
+    context = {"posts": posts}
+    return render(request, "posts.html", context)
+
+
+def post(request, id):
+    post = Post.objects.get(id=id)
+    context = {"post": post}
+    return render(request, "post.html", context)
