@@ -17,14 +17,15 @@ class Client(models.Model):
 class Feed(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    source = models.OneToOneField(Source, blank=True, null=True, on_delete=models.SET_NULL)
+    source = models.OneToOneField(
+        Source, blank=True, null=True, on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('feed', args=(self.id,))
-
+        return reverse("feed", args=(self.id,))
 
 
 class Post(models.Model):
@@ -36,11 +37,9 @@ class Post(models.Model):
     url = models.URLField(blank=True)
 
     def generate_text(self):
-        template = f'{self.entry.title} {self.entry.link} #EvoDevo #Papers'
+        template = f"{self.entry.title} {self.entry.link} #EvoDevo #Papers"
         self.text = template
         return self.text
 
     def __str__(self):
         return self.text
-
-
