@@ -5,8 +5,8 @@
   <h2>Latest posts</h2>
   {% for post in posts %}
   <p class="item">
-    <strong><a href="{{ post.url }}">{{ post.entry.title }}</a></strong>
-    <span class="timestamp"><strong>Posted:</strong> {{ post.created_at }}</span>
+    <strong><a href="{{ post.get_absolute_url }}">{{ post.entry.title }}</a></strong>
+    <span><strong>Posted:</strong> {{ post.created_at }}</span>
   </p>
   {% endfor %}
   <div>
