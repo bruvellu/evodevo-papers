@@ -3,6 +3,7 @@ from django.urls import path
 from django_distill import distill_path
 from bot.views import home, about, feeds, feed, posts, post
 from bot.models import Feed, Post
+from bot.feeds import PostsFeed
 
 
 def get_feeds():
@@ -17,6 +18,7 @@ def get_posts():
 
 urlpatterns = [
     distill_path("", home, name="home"),
+    distill_path("rss/", PostsFeed(), name="rss"),
     distill_path("about/", about, name="about"),
     distill_path("feeds/", feeds, name="feeds"),
     distill_path("feed/<int:id>/", feed, name="feed", distill_func=get_feeds),
