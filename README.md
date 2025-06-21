@@ -14,4 +14,4 @@ A bot that posts the latest research papers in the field of evolutionary develop
 
 - Inspired by [@fly_papers](https://twitter.com/fly_papers) (RIP) and [@phy_papers](https://twitter.com/phy_papers).
 - Initial version based on the [phypapers documentation](https://github.com/roblanf/phypapers).
-- Current version powered by [Django](https://www.djangoproject.com), [django-feed-reader](https://github.com/xurble/django-feed-reader), [django-distill](https://django-distill.com/), [Simple.css](https://simplecss.org), and [Mastodon.py](https://github.com/halcy/Mastodon.py).
+- Current version powered by [Django](https://www.djangoproject.com), [django-feed-reader](https://github.com/xurble/django-feed-reader), [django-distill](https://django-distill.com/), [Mastodon.py](https://github.com/halcy/Mastodon.py), [Simple.css](https://simplecss.org), and [Bootstrap Icons](https://icons.getbootstrap.com).
