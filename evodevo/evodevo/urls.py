@@ -1,11 +1,11 @@
 from django.contrib import admin
-from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django_distill import distill_path
 from bot.views import home, about, feeds, feed, posts, post
 from bot.models import Feed, Post
 from bot.feeds import PostsFeed
+from bot.sitemaps import PostSitemap
 
 
 # Feed objects function required for static pages
@@ -23,10 +23,7 @@ def get_posts():
 # Dictionary required for sitemaps
 sitemaps = {
     "sitemaps": {
-        "posts": GenericSitemap({
-            "queryset": Post.objects.filter(published=True).order_by("-created_at"),
-            "date_field": "created_at",
-        })
+        "posts": PostSitemap,
     }
 }
 
