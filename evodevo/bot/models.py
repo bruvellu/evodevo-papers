@@ -13,6 +13,7 @@ class Client(models.Model):
     def __str__(self):
         return self.account
 
+# TODO: Add created and modified fields
 
 class Feed(models.Model):
     name = models.CharField(max_length=100)
@@ -27,6 +28,7 @@ class Feed(models.Model):
     def get_absolute_url(self):
         return reverse("feed", args=(self.id,))
 
+# TODO: Rename created and add modified fields
 
 class Post(models.Model):
     entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
