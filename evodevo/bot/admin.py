@@ -14,10 +14,12 @@ class FeedAdmin(admin.ModelAdmin):
         "source__status_code",
         "source__last_change",
     ]
+    readonly_fields = ['modified']
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ["id", "text", "published", "created", "url"]
+    readonly_fields = ['modified']
 
 
 admin.site.register(models.Client, ClientAdmin)

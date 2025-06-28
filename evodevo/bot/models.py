@@ -19,6 +19,7 @@ class Feed(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     created = models.DateTimeField(null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True)
     source = models.OneToOneField(
         Source, blank=True, null=True, on_delete=models.SET_NULL
     )
@@ -35,8 +36,9 @@ class Post(models.Model):
     entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.TextField(blank=True)
     response = models.TextField(blank=True)
-    published = models.BooleanField(default=False)
     created = models.DateTimeField(null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True)
+    published = models.BooleanField(default=False)
     url = models.URLField(blank=True)
 
     def generate_text(self):
