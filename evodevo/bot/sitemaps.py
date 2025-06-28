@@ -6,6 +6,7 @@ from django.urls import reverse
 class PostSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.7
+    protocol = "https"
 
     def items(self):
         return Post.objects.filter(published=True).order_by("-created")
@@ -17,6 +18,7 @@ class PostSitemap(Sitemap):
 class FeedSitemap(Sitemap):
     changefreq = "monthly"
     priority = 0.5
+    protocol = "https"
 
     def items(self):
         return Feed.objects.order_by("name")
@@ -28,6 +30,7 @@ class FeedSitemap(Sitemap):
 class PageSitemap(Sitemap):
     priority = 0.8
     changefreq = "weekly"
+    protocol = "https"
 
     def items(self):
         return ["rss", "about", "feeds", "posts"]
