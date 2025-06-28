@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>{% include 'head.html' %}</head>
+  <head>
+    {% include 'head.html' %}
+    <title>{% block title %}{% endblock %} - EvoDevo Papers</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+  </head>
   <body>
     <header>{% include 'header.html' %}</header>
     <main>{% block main %}{% endblock %}</main>
