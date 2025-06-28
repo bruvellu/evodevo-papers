@@ -35,7 +35,7 @@ class Post(models.Model):
     text = models.TextField(blank=True)
     response = models.TextField(blank=True)
     published = models.BooleanField(default=False)
-    created_at = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(null=True, blank=True)
     url = models.URLField(blank=True)
 
     def generate_text(self):

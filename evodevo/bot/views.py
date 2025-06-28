@@ -4,7 +4,7 @@ from .models import Feed, Post
 
 def home(request):
     feeds = Feed.objects.order_by("-source__last_change")
-    posts = Post.objects.filter(published=True).order_by("-created_at")[:5]
+    posts = Post.objects.filter(published=True).order_by("-created")[:5]
     context = {
         "feeds": feeds,
         "posts": posts,
@@ -34,7 +34,7 @@ def feed(request, id):
 
 
 def posts(request):
-    posts = Post.objects.filter(published=True).order_by("-created_at")
+    posts = Post.objects.filter(published=True).order_by("-created")
     context = {"posts": posts}
     return render(request, "posts.html", context)
 

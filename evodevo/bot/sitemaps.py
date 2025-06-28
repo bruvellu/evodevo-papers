@@ -8,10 +8,10 @@ class PostSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Post.objects.filter(published=True).order_by("-created_at")
+        return Post.objects.filter(published=True).order_by("-created")
 
     def lastmod(self, obj):
-        return obj.created_at
+        return obj.created
 
 
 class FeedSitemap(Sitemap):
@@ -22,7 +22,7 @@ class FeedSitemap(Sitemap):
         return Feed.objects.order_by("name")
 
     # def lastmod(self, obj):
-        # return obj.created_at
+        # return obj.created
 
 
 class PageSitemap(Sitemap):

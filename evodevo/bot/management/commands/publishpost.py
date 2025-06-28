@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 post.text, visibility="unlisted", language="en"
             )
 
-            post.created_at = response["created_at"]
+            post.created = response["created_at"]
             post.url = response["url"]
             post.response = response
             post.published = True

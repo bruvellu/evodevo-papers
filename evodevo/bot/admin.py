@@ -17,7 +17,7 @@ class FeedAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "text", "published", "created_at", "url"]
+    list_display = ["id", "text", "published", "created", "url"]
 
 
 admin.site.register(models.Client, ClientAdmin)
