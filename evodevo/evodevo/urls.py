@@ -5,7 +5,7 @@ from django_distill import distill_path
 from bot.views import home, about, feeds, feed, posts, post
 from bot.models import Feed, Post
 from bot.feeds import PostsFeed
-from bot.sitemaps import PostSitemap
+from bot.sitemaps import sitemaps
 
 
 # Feed objects function required for static pages
@@ -18,14 +18,6 @@ def get_feeds():
 def get_posts():
     for post_obj in Post.objects.filter(published=True).order_by("-created_at"):
         yield {"id": post_obj.id}
-
-
-# Dictionary required for sitemaps
-sitemaps = {
-    "sitemaps": {
-        "posts": PostSitemap,
-    }
-}
 
 # Website paths
 urlpatterns = [

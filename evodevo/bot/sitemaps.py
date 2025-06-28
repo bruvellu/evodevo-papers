@@ -13,6 +13,14 @@ class PostSitemap(Sitemap):
         return obj.created_at
 
 
+# Dictionary required for sitemaps
+sitemaps = {
+    "sitemaps": {
+        "posts": PostSitemap,
+    }
+}
+
+
 
 
 
