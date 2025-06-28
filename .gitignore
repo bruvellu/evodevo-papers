@@ -1,0 +1,6 @@
+__pycache__
+Makefile
+backups
+cron.sh
+db.sqlite3
+website
