@@ -8,11 +8,13 @@ from bot.models import Feed, Post
 from bot.feeds import PostsFeed
 
 
+# Feed objects function required for static pages
 def get_feeds():
     for feed_obj in Feed.objects.all():
         yield {"id": feed_obj.id}
 
 
+# Post objects function required for static pages
 def get_posts():
     for post_obj in Post.objects.all():
         yield {"id": post_obj.id}
@@ -28,6 +30,7 @@ sitemaps = {
     }
 }
 
+# Website paths
 urlpatterns = [
     distill_path("", home, name="home"),
     distill_path("sitemap.xml", sitemap, sitemaps, name="django.contrib.sitemaps.views.sitemap",),
