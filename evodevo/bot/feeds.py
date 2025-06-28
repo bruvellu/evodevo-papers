@@ -1,6 +1,6 @@
 from django.contrib.syndication.views import Feed
-from django.urls import reverse
 from bot.models import Post
+
 
 class PostsFeed(Feed):
     title = "EvoDevo Papers latest posts"

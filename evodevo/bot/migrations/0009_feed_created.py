@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0008_rename_created_at_post_created'),
+        ("bot", "0008_rename_created_at_post_created"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='feed',
-            name='created',
+            model_name="feed",
+            name="created",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

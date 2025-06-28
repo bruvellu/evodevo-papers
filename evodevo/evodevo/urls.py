@@ -19,10 +19,16 @@ def get_posts():
     for post_obj in Post.objects.filter(published=True).order_by("-created"):
         yield {"id": post_obj.id}
 
+
 # Website paths
 urlpatterns = [
     distill_path("", home, name="home"),
-    distill_path("sitemap.xml", sitemap, sitemaps, name="django.contrib.sitemaps.views.sitemap",),
+    distill_path(
+        "sitemap.xml",
+        sitemap,
+        sitemaps,
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
     distill_path("rss/", PostsFeed(), name="rss"),
     distill_path("about/", about, name="about"),
     distill_path("feeds/", feeds, name="feeds"),

@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0007_auto_20250628_1219'),
+        ("bot", "0007_auto_20250628_1219"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='post',
-            old_name='created_at',
-            new_name='created',
+            model_name="post",
+            old_name="created_at",
+            new_name="created",
         ),
     ]

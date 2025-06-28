@@ -12,9 +12,8 @@ def update_site(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0006_feed_description'),
+        ("bot", "0006_feed_description"),
     ]
 
     operations = [
