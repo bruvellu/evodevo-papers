@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% block title %}{{ feed.name }}{% endblock %}
+{% block description %}{{ feed.description }}{% endblock %}
 {% block main %}
 <section>
   <h2>{{ feed.name }} (<a href="{{ feed.source.feed_url }}">URL</a>)</h2>

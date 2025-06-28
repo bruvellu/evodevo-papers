@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% block title %}{{ post.entry.title }}{% endblock %}
+{% block description %}Paper published by {{ post.entry.source.feed.name }} featured on EvoDevo Papers.{% endblock %}
 {% block main %}
 <section>
   <h2>{{ post.entry.title }}</h2>
