@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django_distill import distill_path
 from bot.views import home, about, feeds, feed, posts, post
@@ -16,8 +18,19 @@ def get_posts():
         yield {"id": post_obj.id}
 
 
+# Dictionary required for sitemaps
+sitemaps = {
+    "sitemaps": {
+        "posts": GenericSitemap({
+            "queryset": Post.objects.filter(published=True).order_by("-created_at"),
+            "date_field": "created_at",
+        })
+    }
+}
+
 urlpatterns = [
     distill_path("", home, name="home"),
+    distill_path("sitemap.xml", sitemap, sitemaps, name="django.contrib.sitemaps.views.sitemap",),
     distill_path("rss/", PostsFeed(), name="rss"),
     distill_path("about/", about, name="about"),
     distill_path("feeds/", feeds, name="feeds"),
