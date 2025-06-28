@@ -10,13 +10,13 @@ from bot.feeds import PostsFeed
 
 # Feed objects function required for static pages
 def get_feeds():
-    for feed_obj in Feed.objects.all():
+    for feed_obj in Feed.objects.order_by("name"):
         yield {"id": feed_obj.id}
 
 
 # Post objects function required for static pages
 def get_posts():
-    for post_obj in Post.objects.all():
+    for post_obj in Post.objects.filter(published=True).order_by("-created_at"):
         yield {"id": post_obj.id}
 
 
