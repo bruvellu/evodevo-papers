@@ -18,6 +18,7 @@ class Client(models.Model):
 class Feed(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    created = models.DateTimeField(null=True, blank=True)
     source = models.OneToOneField(
         Source, blank=True, null=True, on_delete=models.SET_NULL
     )
