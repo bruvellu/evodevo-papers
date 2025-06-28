@@ -11,7 +11,7 @@ class PostSitemap(Sitemap):
         return Post.objects.filter(published=True).order_by("-created")
 
     def lastmod(self, obj):
-        return obj.created
+        return obj.modified
 
 
 class FeedSitemap(Sitemap):
@@ -21,8 +21,8 @@ class FeedSitemap(Sitemap):
     def items(self):
         return Feed.objects.order_by("name")
 
-    # def lastmod(self, obj):
-        # return obj.created
+    def lastmod(self, obj):
+        return obj.modified
 
 
 class PageSitemap(Sitemap):
@@ -44,7 +44,3 @@ sitemaps = {
         "pages": PageSitemap,
     }
 }
-
-
-
-
