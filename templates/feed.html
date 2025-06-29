@@ -6,7 +6,7 @@
   <h1>{{ feed.name }} <a href="{{ feed.source.feed_url }}" title="RSS feed for {{ feed.name }}">{% include 'icon_feed.html' %}</a></h1>
   <p class="description">{{ feed.description }}</p>
   <p class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</p>
-  <h3>Entries</h3>
+  <h2>Entries</h2>
   {% for entry in entries %}
   <p class="item">
     <strong><a href="{{ entry.link }}">{{ entry.title|safe }}</a></strong>
