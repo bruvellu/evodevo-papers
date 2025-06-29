@@ -1,12 +1,13 @@
-<style>
 header nav {
   padding-bottom: 1rem;
 }
+
 .item {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
+
 .metadata {
   color: var(--text-light);
   display: flex;
@@ -15,6 +16,7 @@ header nav {
   justify-content: space-between;
   padding-top: 1rem;
 }
+
 .icon {
   vertical-align: middle;
   display: inline-block;
@@ -24,4 +26,3 @@ header nav {
   stroke: currentColor;
   fill: currentColor;
 }
-</style>
