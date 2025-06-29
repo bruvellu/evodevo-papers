@@ -3,7 +3,7 @@
 {% block description %}List of journal feeds indexed by EvoDevo Papers.{% endblock %}
 {% block main %}
 <section>
-  <h2>Feeds</h2>
+  <h1>Feeds</h1>
   {% for feed in feeds %}
   <p class="item">
     <strong><a href="{{ feed.get_absolute_url }}">{{ feed.name }}</a></strong>

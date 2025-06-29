@@ -1,3 +1,13 @@
+#logo {
+    max-width: 1200px;
+    margin: 1rem auto;
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    font-size: 4rem;
+    display: block;
+    font-weight: bold;
+}
+
 header nav {
   padding-bottom: 1rem;
 }
