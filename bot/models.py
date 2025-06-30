@@ -40,13 +40,25 @@ class Post(models.Model):
     published = models.BooleanField(default=False)
     url = models.URLField(blank=True)
 
-    def generate_text(self):
-        template = f"{self.entry.title} {self.entry.link} #EvoDevo #Papers"
-        self.text = template
-        return self.text
-
     def __str__(self):
         return self.text
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
+
+    def generate_text(self):
+        template = f"{self.entry.title} {self.entry.link} #EvoDevo #Papers"
+        self.text = template
+        return self.text
+
+
+class Status(models.Model):
+    post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.SET_NULL, related_name='statuses')
+    client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+    response = models.JSONField(blank=True)
+    url = models.URLField(blank=True)
+    modified = models.DateTimeField(auto_now=True)
+    published = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "statuses"

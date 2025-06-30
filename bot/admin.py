@@ -22,6 +22,12 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ["modified"]
 
 
+class StatusAdmin(admin.ModelAdmin):
+    list_display = ["client", "published"]
+    readonly_fields = ["modified"]
+
+
 admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Feed, FeedAdmin)
 admin.site.register(models.Post, PostAdmin)
+admin.site.register(models.Status, StatusAdmin)
