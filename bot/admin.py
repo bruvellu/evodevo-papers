@@ -3,7 +3,7 @@ from . import models
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ["account", "is_active", "access_token"]
+    list_display = ["platform", "account", "is_active", "access_token"]
 
 
 class FeedAdmin(admin.ModelAdmin):

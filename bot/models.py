@@ -5,6 +5,7 @@ from feeds.models import Source
 
 
 class Client(models.Model):
+    platform = models.CharField(blank=True, max_length=50)
     account = models.CharField(max_length=50)
     api_base_url = models.CharField(blank=True, max_length=50)
     access_token = models.CharField(blank=True, max_length=50)
