@@ -55,8 +55,10 @@ class Post(models.Model):
 class Status(models.Model):
     post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.SET_NULL, related_name='statuses')
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+    text = models.TextField(blank=True)
     response = models.JSONField(blank=True)
     url = models.URLField(blank=True)
+    created = models.DateTimeField(null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
 
