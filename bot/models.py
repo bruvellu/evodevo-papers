@@ -38,14 +38,6 @@ class Post(models.Model):
     entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
-    # Deprecated. Use only entry.title and entry.link
-    text = models.TextField(blank=True)
-    # Deprecated. Response stays with Status
-    response = models.TextField(blank=True)
-    # Deprecated. Published stays with Status
-    published = models.BooleanField(default=False)
-    # Deprecated. Published stays with Status
-    url = models.URLField(blank=True)
 
     def __str__(self):
         return f"Post[{self.id}]: {self.entry.title[:30]}..."
