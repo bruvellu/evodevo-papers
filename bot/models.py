@@ -75,19 +75,11 @@ class Status(models.Model):
     modified = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
 
-    class Meta:
-        verbose_name_plural = "statuses"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["post", "client"], name="unique_status_per_client_post"
-            )
-        ]
-
     def __str__(self):
         return f"Status[{self.id}]: {self.post.entry.title[:30]}..."
 
     def build_text(self, facets=False):
-        # Build faceted text object (required for Bluesky)
+        # Faceted text object required for Bluesky
         text = (
             client_utils.TextBuilder()
             .text(f"{self.post.entry.title}")
@@ -96,8 +88,20 @@ class Status(models.Model):
             .text(" ")
             .tag("#EvoDevo", "EvoDevo")
         )
-        # Return object
         if facets:
             return text
-        # Or plain text
         return text.build_text()
+
+    def save(self, *args, **kwargs):
+        if not self.published:
+            self.text = self.build_text()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = "statuses"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["post", "client"], name="unique_status_per_client_post"
+            )
+        ]
+
