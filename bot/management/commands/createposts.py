@@ -32,5 +32,4 @@ class Command(BaseCommand):
             # Create linked statuses
             post.get_or_create_statuses()
             # Write output
-            self.stdout.write(self.style.SUCCESS(f"Post id={post.id}: "), ending="")
-            self.stdout.write(f"{post.text}")
+            self.stdout.write(self.style.SUCCESS(post))
