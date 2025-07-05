@@ -52,10 +52,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
 
-    def create_statuses(self):
+    def get_or_create_statuses(self):
         for client in Client.objects.filter(is_active=True):
-            # TODO: use get_or_create?
-            status = Status(post=self, client=client)
+            status, created = Status.objects.get_or_create(post=self, client=client)
             status.save()
 
     @property
@@ -75,6 +74,7 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "statuses"
+        constraints = [ models.UniqueConstraint(fields=['post', 'client'], name='unique_status_per_client_post')]
 
     def __str__(self):
         return f"Status[{self.id}]: {self.post.entry.title[:30]}..."
