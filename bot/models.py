@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from feeds.models import Post as Entry
 from feeds.models import Source
-from atproto import Client as ATClient
+
+# from atproto import Client as ATClient
 from atproto import client_utils
 
 
@@ -63,7 +64,9 @@ class Post(models.Model):
 
 
 class Status(models.Model):
-    post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.SET_NULL, related_name='statuses')
+    post = models.ForeignKey(
+        Post, blank=True, null=True, on_delete=models.SET_NULL, related_name="statuses"
+    )
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.TextField(blank=True)
     response = models.JSONField(blank=True)
@@ -74,22 +77,27 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "statuses"
-        constraints = [ models.UniqueConstraint(fields=['post', 'client'], name='unique_status_per_client_post')]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["post", "client"], name="unique_status_per_client_post"
+            )
+        ]
 
     def __str__(self):
         return f"Status[{self.id}]: {self.post.entry.title[:30]}..."
 
     def build_text(self, facets=False):
         # Build faceted text object (required for Bluesky)
-        text = (client_utils.TextBuilder()
-                .text(f"{self.post.entry.title}")
-                .text(" ")
-                .link(f"{self.post.entry.link}", f"{self.post.entry.link}")
-                .text(" ")
-                .tag("#EvoDevo", "EvoDevo"))
+        text = (
+            client_utils.TextBuilder()
+            .text(f"{self.post.entry.title}")
+            .text(" ")
+            .link(f"{self.post.entry.link}", f"{self.post.entry.link}")
+            .text(" ")
+            .tag("#EvoDevo", "EvoDevo")
+        )
         # Return object
         if facets:
             return text
         # Or plain text
         return text.build_text()
-

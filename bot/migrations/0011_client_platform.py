@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0010_feed_modified_post_modified'),
+        ("bot", "0010_feed_modified_post_modified"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='client',
-            name='platform',
+            model_name="client",
+            name="platform",
             field=models.CharField(blank=True, max_length=50),
         ),
     ]

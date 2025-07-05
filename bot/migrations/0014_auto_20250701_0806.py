@@ -11,18 +11,19 @@ def create_statuses(apps, schema_editor):
     mastodon_client = Client.objects.get(account="@evodevo_papers@biologists.social")
 
     for post in Post.objects.all():
-        status = Status(post=post,
-                        client=mastodon_client,
-                        response=post.response,
-                        url=post.url,
-                        published=post.published)
+        status = Status(
+            post=post,
+            client=mastodon_client,
+            response=post.response,
+            url=post.url,
+            published=post.published,
+        )
         status.save()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0013_status_post'),
+        ("bot", "0013_status_post"),
     ]
 
     operations = [

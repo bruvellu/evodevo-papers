@@ -13,9 +13,8 @@ def update_statuses(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0015_alter_status_options_status_created_status_text'),
+        ("bot", "0015_alter_status_options_status_created_status_text"),
     ]
 
     operations = [

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0016_auto_20250701_0832'),
+        ("bot", "0016_auto_20250701_0832"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='created',
+            model_name="post",
+            name="created",
             field=models.DateTimeField(auto_now_add=True, null=True),
         ),
     ]

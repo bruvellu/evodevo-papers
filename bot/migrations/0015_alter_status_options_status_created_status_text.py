@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0014_auto_20250701_0806'),
+        ("bot", "0014_auto_20250701_0806"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='status',
-            options={'verbose_name_plural': 'statuses'},
+            name="status",
+            options={"verbose_name_plural": "statuses"},
         ),
         migrations.AddField(
-            model_name='status',
-            name='created',
+            model_name="status",
+            name="created",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='status',
-            name='text',
+            model_name="status",
+            name="text",
             field=models.TextField(blank=True),
         ),
     ]
