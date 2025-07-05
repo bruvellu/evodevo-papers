@@ -24,11 +24,13 @@ class Command(BaseCommand):
         # Inform how many new entries will be added
         self.stdout.write(f"{entries_without_a_post.count()} new feed entries!")
 
-        # Loop over new feed entries and create posts
+        # Loop over new feed entries and create posts and statuses
         for entry in entries_without_a_post:
+            # New post
             post = Post(entry=entry)
-            post.generate_text()
             post.save()
-
+            # Associated statuses
+            post.create_statuses()
+            # Write output
             self.stdout.write(self.style.SUCCESS(f"Post id={post.id}: "), ending="")
             self.stdout.write(f"{post.text}")

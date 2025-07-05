@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from feeds.models import Post as Entry
 from feeds.models import Source
-from atproto import Client, client_utils
+from atproto import Client as ATClient
+from atproto import client_utils
 
 
 class Client(models.Model):
@@ -50,6 +51,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
+
+    def create_statuses(self):
+        for client in Client.objects.filter(is_active=True):
+            # TODO: use get_or_create?
+            status = Status(post=self, client=client)
+            status.save()
 
     @property
     def display_text(self):
