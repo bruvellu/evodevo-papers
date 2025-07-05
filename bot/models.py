@@ -54,11 +54,8 @@ class Post(models.Model):
         return reverse("post", args=(self.id,))
 
     def get_or_create_statuses(self):
-        print(self)
         for client in Client.objects.filter(is_active=True):
-            print(client.platform, client.account)
             status, created = Status.objects.get_or_create(post=self, client=client)
-            print(status, created)
             status.save()
 
     @property
