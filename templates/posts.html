@@ -10,6 +10,7 @@
     <span class="metadata">
       <span>
         <a href="{{ post.get_absolute_url }}" title="Post on EvoDevo Papers">{% include 'icon_page.html' %}</a>
+        {% comment %}TODO: Replace by custom template tag{% endcomment %}
         {% for status in post.statuses.all %}
         {% if status.published %}
         <a href="{{ status.url }}" title="Post on {{ status.client.platform }}">
