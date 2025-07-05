@@ -9,8 +9,14 @@
     <p>{{ post.display_text|urlize }}</p>
     <span class="metadata">
       <span>
-        <a href="{{ post.get_absolute_url }}" title="Post on this website">{% include 'icon_page.html' %}</a>
-        <a href="{{ post.url }}" title="Post on Mastodon">{% include 'icon_mastodon.html' %}</a>
+        <a href="{{ post.get_absolute_url }}" title="Post on EvoDevo Papers">{% include 'icon_page.html' %}</a>
+        {% for status in post.statuses.all %}
+        <a href="{{ status.url }}" title="Post on {{ status.client.platform }}">
+          {% with icon_template="icon_"|add:status.client.platform|lower|add:".html" %}
+          {% include icon_template %}
+          {% endwith %}
+        </a>
+        {% endfor %}
       </span>
       <span>{{ post.created }}</span>
     </span>
