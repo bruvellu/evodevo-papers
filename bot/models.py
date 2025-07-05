@@ -52,7 +52,7 @@ class Post(models.Model):
 
     @property
     def display_text(self):
-        return f"{self.entry.title} {self.entry.link} ({ self.entry.source.feed })"
+        return f"{self.entry.title} {self.entry.link}"
 
 
 class Status(models.Model):
