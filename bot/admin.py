@@ -23,7 +23,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ["id", "client__platform", "url", "created", "published"]
+    list_display = ["id","post__entry__title", "client__platform", "url", "created", "published"]
     readonly_fields = ["created", "modified"]
 
 
