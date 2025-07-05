@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from feeds.models import Post as Entry
 from feeds.models import Source
+from atproto import Client, client_utils
 
 
 class Client(models.Model):
@@ -45,15 +46,14 @@ class Post(models.Model):
     url = models.URLField(blank=True)
 
     def __str__(self):
-        return self.text
+        return f"Post[{self.id}]: {self.entry.title[:30]}..."
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
 
-    def generate_text(self):
-        template = f"{self.entry.title} {self.entry.link} #EvoDevo #Papers"
-        self.text = template
-        return self.text
+    @property
+    def display_text(self):
+        return f"{self.entry.title} {self.entry.link}"
 
 
 class Status(models.Model):
@@ -68,3 +68,21 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "statuses"
+
+    def __str__(self):
+        return f"Status[{self.id}]: {self.post.entry.title[:30]}..."
+
+    def build_text(self, facets=False):
+        # Build faceted text object (required for Bluesky)
+        text = (client_utils.TextBuilder()
+                .text(f"{self.post.entry.title}")
+                .text(" ")
+                .link(f"{self.post.entry.link}", f"{self.post.entry.link}")
+                .text(" ")
+                .tag("#EvoDevo", "EvoDevo"))
+        # Return object
+        if facets:
+            return text
+        # Or plain text
+        return text.build_text()
+
