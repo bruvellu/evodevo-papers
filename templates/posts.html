@@ -5,8 +5,8 @@
 <section>
   <h1>Posts</h1>
   {% for post in posts %}
-  <p class="notice">
-    {{ post.display_text|urlize }}
+  <div class="notice">
+    <p>{{ post.display_text|urlize }}</p>
     <span class="metadata">
       <span>
         <a href="{{ post.get_absolute_url }}" title="Post on this website">{% include 'icon_page.html' %}</a>
@@ -14,7 +14,7 @@
       </span>
       <span>{{ post.created }}</span>
     </span>
-  </p>
+  </div>
   {% endfor %}
 </section>
 {% endblock %}
