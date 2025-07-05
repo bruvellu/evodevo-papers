@@ -62,7 +62,7 @@ class Status(models.Model):
     text = models.TextField(blank=True)
     response = models.JSONField(blank=True)
     url = models.URLField(blank=True)
-    created = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
 
