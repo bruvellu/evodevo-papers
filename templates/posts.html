@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 {% block title %}Posts{% endblock %}
 {% block description %}All the posts created by EvoDevo Papers.{% endblock %}
 {% block main %}
@@ -10,16 +11,7 @@
     <span class="metadata">
       <span>
         <a href="{{ post.get_absolute_url }}" title="Post on EvoDevo Papers">{% include 'icon_page.html' %}</a>
-        {% comment %}TODO: Replace by custom template tag{% endcomment %}
-        {% for status in post.statuses.all %}
-        {% if status.published %}
-        <a href="{{ status.url }}" title="Post on {{ status.client.platform }}">
-          {% with icon_template="icon_"|add:status.client.platform|lower|add:".html" %}
-          {% include icon_template %}
-          {% endwith %}
-        </a>
-        {% endif %}
-        {% endfor %}
+        {% render_statuses_links post %}
       </span>
       <span>{{ post.created }}</span>
     </span>

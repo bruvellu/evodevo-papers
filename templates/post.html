@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 {% block title %}{{ post.entry.title }}{% endblock %}
 {% block description %}Paper published by {{ post.entry.source.feed.name }} featured on EvoDevo Papers.{% endblock %}
 {% block main %}
@@ -6,8 +7,8 @@
   <h1>{{ post.entry.title }}</h1>
   <p><strong>Post ID:</strong> {{ post.id }}</p>
   <p><strong>Created:</strong> {{ post.created }}</p>
-  <p><strong>Text:</strong> {{ post.text|urlize }}</p>
+  <p><strong>Text:</strong> {{ post.display_text|urlize }}</p>
   <p><strong>Feed:</strong> <a href="{{ post.entry.source.feed.get_absolute_url }}">{{ post.entry.source.feed.name }}</a></p>
-  <p><strong>Links:</strong> <a href="{{ post.url }}" title="Post on Mastodon">{% include 'icon_mastodon.html' %}</a></p>
+  <p><strong>Links:</strong> {% render_statuses_links post %}
 </section>
 {% endblock %}
