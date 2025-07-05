@@ -11,11 +11,13 @@
       <span>
         <a href="{{ post.get_absolute_url }}" title="Post on EvoDevo Papers">{% include 'icon_page.html' %}</a>
         {% for status in post.statuses.all %}
+        {% if status.published %}
         <a href="{{ status.url }}" title="Post on {{ status.client.platform }}">
           {% with icon_template="icon_"|add:status.client.platform|lower|add:".html" %}
           {% include icon_template %}
           {% endwith %}
         </a>
+        {% endif %}
         {% endfor %}
       </span>
       <span>{{ post.created }}</span>
