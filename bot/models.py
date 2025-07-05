@@ -54,8 +54,11 @@ class Post(models.Model):
         return reverse("post", args=(self.id,))
 
     def get_or_create_statuses(self):
+        print(self)
         for client in Client.objects.filter(is_active=True):
+            print(client.platform, client.account)
             status, created = Status.objects.get_or_create(post=self, client=client)
+            print(status, created)
             status.save()
 
     @property
@@ -69,7 +72,7 @@ class Status(models.Model):
     )
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.TextField(blank=True)
-    response = models.JSONField(blank=True)
+    response = models.JSONField(blank=True, default=dict)
     url = models.URLField(blank=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
