@@ -8,10 +8,10 @@ class PostsFeed(Feed):
     description = "Posting the latest papers in evolutionary developmental biology."
 
     def items(self):
-        return Post.objects.filter(published=True).order_by("-created")[:20]
+        return Post.objects.order_by("-created")[:20]
 
     def item_title(self, item):
-        return item.entry.title
+        return item.title
 
     def item_description(self, item):
-        return item.text
+        return item.display_text

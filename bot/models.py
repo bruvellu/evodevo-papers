@@ -54,7 +54,7 @@ class Post(models.Model):
 
     @property
     def display_text(self):
-        return f"{self.entry.title} {self.entry.link}"
+        return f"{self.title} {self.link}"
 
 
 class Status(models.Model):
@@ -70,15 +70,15 @@ class Status(models.Model):
     published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Status[{self.id}]: {self.post.entry.title[:30]}..."
+        return f"Status[{self.id}]: {self.post.title[:30]}..."
 
     def build_text(self, facets=False):
         # Faceted text object required for Bluesky
         text = (
             client_utils.TextBuilder()
-            .text(f"{self.post.entry.title}")
+            .text(f"{self.post.title}")
             .text(" ")
-            .link(f"{self.post.entry.link}", f"{self.post.entry.link}")
+            .link(f"{self.post.link}", f"{self.post.link}")
             .text(" ")
             .tag("#EvoDevo", "EvoDevo")
         )
