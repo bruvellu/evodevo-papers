@@ -119,15 +119,11 @@ class Status(models.Model):
 
     def post_to_bluesky(self):
         bluesky = ATClient()
-        print(bluesky)
+        # TODO: Fetch follower count, add followers field to client
         profile = bluesky.login(self.client.handle, self.client.access_token)
-        print(profile)
         response = bluesky.send_post(self.build_text(facets=True))
-        print(response)
         posts = bluesky.get_posts([response.uri])
-        print(posts)
         post = posts.posts[0]
-        print(post)
         self.response = post.dict()
         self.url = self.bluesky_uri_to_url(post.uri)
         self.published = post.record.created_at
