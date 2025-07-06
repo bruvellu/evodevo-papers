@@ -4,7 +4,7 @@
 {% block description %}Paper published by {{ post.entry.source.feed.name }} featured on EvoDevo Papers.{% endblock %}
 {% block main %}
 <section>
-  <h1>{{ post.title }}</h1>
+  <h1 class="post-title">{{ post.title }}</h1>
   <p><strong>Post ID:</strong> {{ post.id }}</p>
   <p><strong>Created:</strong> {{ post.created }}</p>
   <p><strong>Link:</strong> {{ post.link|urlize }}</p>

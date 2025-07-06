@@ -36,3 +36,7 @@ header nav {
   stroke: currentColor;
   fill: currentColor;
 }
+
+h1.post-title {
+  font-size: 2rem;
+}
