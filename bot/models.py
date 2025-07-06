@@ -67,7 +67,7 @@ class Status(models.Model):
     url = models.URLField(blank=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
-    published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Status[{self.id}]: {self.post.title[:30]}..."
