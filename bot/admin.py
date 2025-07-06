@@ -18,12 +18,12 @@ class FeedAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "entry__title", "created"]
+    list_display = ["id", "title", "created"]
     readonly_fields = ["created", "modified"]
 
 
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ["id","post__entry__title", "client__platform", "url", "created", "published"]
+    list_display = ["id","post__title", "client__platform", "url", "created", "published"]
     readonly_fields = ["created", "modified"]
 
 
