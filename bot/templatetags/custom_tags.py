@@ -7,7 +7,7 @@ register = template.Library()
 @register.simple_tag
 def render_statuses_links(post):
     html = []
-    statuses = post.statuses.filter(published=True).select_related('client')
+    statuses = post.statuses.filter(is_published=True).select_related('client')
     for status in statuses:
         icon_template = f"icon_{status.client.platform.lower()}.html"
         icon_html = render_to_string(icon_template)
