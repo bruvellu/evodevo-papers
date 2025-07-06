@@ -18,7 +18,7 @@ class FeedAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "created"]
+    list_display = ["id", "title", "created", "is_new"]
     readonly_fields = ["created", "modified"]
 
 
