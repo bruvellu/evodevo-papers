@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from feeds.models import Post as Entry
 from feeds.models import Source
+import json
 
 from mastodon import Mastodon
 from atproto import Client as ATClient
@@ -111,19 +112,22 @@ class Status(models.Model):
         response = mastodon.status_post(
             self.build_text(), visibility="unlisted", language="en"
         )
-        self.response = dict(response)
-        self.url = response["url"]
-        self.published = response["created_at"]
+        # TODO: Fetch account follower count
+        # TODO: Fetch post stats (likes, reposts, etc.)
+        self.response = json.loads(response.to_json())['_mastopy_data']
+        self.url = response.url
+        self.published = response.created_at
         self.is_published = True
         self.save()
 
     def post_to_bluesky(self):
         bluesky = ATClient()
-        # TODO: Fetch follower count, add followers field to client
+        # TODO: Fetch profile follower count
         profile = bluesky.login(self.client.handle, self.client.access_token)
         response = bluesky.send_post(self.build_text(facets=True))
         posts = bluesky.get_posts([response.uri])
         post = posts.posts[0]
+        # TODO: Fetch post stats (likes, reposts, etc.)
         self.response = post.dict()
         self.url = self.bluesky_uri_to_url(post.uri)
         self.published = post.record.created_at
