@@ -15,9 +15,8 @@ def create_statuses(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0020_alter_status_response'),
+        ("bot", "0020_alter_status_response"),
     ]
 
     operations = [

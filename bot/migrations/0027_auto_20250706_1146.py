@@ -13,9 +13,8 @@ def update_published(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0026_status_published'),
+        ("bot", "0026_status_published"),
     ]
 
     operations = [

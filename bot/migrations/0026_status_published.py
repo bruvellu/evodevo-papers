@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0025_rename_published_status_is_published'),
+        ("bot", "0025_rename_published_status_is_published"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='status',
-            name='published',
+            model_name="status",
+            name="published",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

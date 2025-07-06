@@ -4,10 +4,11 @@ from django.template.loader import render_to_string
 
 register = template.Library()
 
+
 @register.simple_tag
 def render_statuses_links(post):
     html = []
-    statuses = post.statuses.filter(is_published=True).select_related('client')
+    statuses = post.statuses.filter(is_published=True).select_related("client")
     for status in statuses:
         icon_template = f"icon_{status.client.platform.lower()}.html"
         icon_html = render_to_string(icon_template)
@@ -16,7 +17,7 @@ def render_statuses_links(post):
                 '<a href="{}" title="Post on {}">{}</a>',
                 status.url,
                 status.client.platform,
-                icon_html
+                icon_html,
             )
         )
     return format_html("".join(str(h) for h in html))

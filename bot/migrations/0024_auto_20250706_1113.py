@@ -14,9 +14,8 @@ def add_post_title_link(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0023_post_link_post_title'),
+        ("bot", "0023_post_link_post_title"),
     ]
 
     operations = [

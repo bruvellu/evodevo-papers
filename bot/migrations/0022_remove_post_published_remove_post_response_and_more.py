@@ -4,26 +4,25 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0021_auto_20250705_2053'),
+        ("bot", "0021_auto_20250705_2053"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='published',
+            model_name="post",
+            name="published",
         ),
         migrations.RemoveField(
-            model_name='post',
-            name='response',
+            model_name="post",
+            name="response",
         ),
         migrations.RemoveField(
-            model_name='post',
-            name='text',
+            model_name="post",
+            name="text",
         ),
         migrations.RemoveField(
-            model_name='post',
-            name='url',
+            model_name="post",
+            name="url",
         ),
     ]

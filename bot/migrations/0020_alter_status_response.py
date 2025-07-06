@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0019_status_unique_status_per_client_post'),
+        ("bot", "0019_status_unique_status_per_client_post"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='status',
-            name='response',
+            model_name="status",
+            name="response",
             field=models.JSONField(blank=True, default=dict),
         ),
     ]

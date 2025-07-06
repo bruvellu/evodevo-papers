@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0022_remove_post_published_remove_post_response_and_more'),
+        ("bot", "0022_remove_post_published_remove_post_response_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='link',
+            model_name="post",
+            name="link",
             field=models.URLField(blank=True),
         ),
         migrations.AddField(
-            model_name='post',
-            name='title',
+            model_name="post",
+            name="title",
             field=models.TextField(blank=True),
         ),
     ]

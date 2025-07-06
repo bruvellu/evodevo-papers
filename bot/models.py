@@ -21,7 +21,7 @@ class Client(models.Model):
 
     @property
     def handle(self):
-        '''Return account without the @.'''
+        """Return account without the @."""
         return self.account[1:]
 
 
@@ -108,13 +108,15 @@ class Status(models.Model):
                 return False
 
     def post_to_mastodon(self):
-        mastodon = Mastodon(access_token=self.client.access_token, api_base_url=self.client.api_base_url)
+        mastodon = Mastodon(
+            access_token=self.client.access_token, api_base_url=self.client.api_base_url
+        )
         response = mastodon.status_post(
             self.build_text(), visibility="unlisted", language="en"
         )
         # TODO: Fetch account follower count
         # TODO: Fetch post stats (likes, reposts, etc.)
-        self.response = json.loads(response.to_json())['_mastopy_data']
+        self.response = json.loads(response.to_json())["_mastopy_data"]
         self.url = response.url
         self.published = response.created_at
         self.is_published = True
@@ -141,7 +143,8 @@ class Status(models.Model):
         url = 'https://bsky.app/profile/evodevo-papers.bsky.social/post/3ltc4hqycjy2k'
         """
         import re
-        match = re.match(r'at://[^/]+/app\.bsky\.feed\.post/([^/]+)', uri)
+
+        match = re.match(r"at://[^/]+/app\.bsky\.feed\.post/([^/]+)", uri)
         if not match:
             raise ValueError("Invalid URI format")
         post_id = match.group(1)
@@ -159,4 +162,3 @@ class Status(models.Model):
                 fields=["post", "client"], name="unique_status_per_client_post"
             )
         ]
-
