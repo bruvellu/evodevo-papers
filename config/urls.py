@@ -16,7 +16,7 @@ def get_feeds():
 
 # Post objects function required for static pages
 def get_posts():
-    for post_obj in Post.objects.filter(published=True).order_by("-created"):
+    for post_obj in Post.objects.order_by("-created"):
         yield {"id": post_obj.id}
 
 

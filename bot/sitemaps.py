@@ -9,7 +9,7 @@ class PostSitemap(Sitemap):
     protocol = "https"
 
     def items(self):
-        return Post.objects.filter(published=True).order_by("-created")
+        return Post.objects.order_by("-created")
 
     def lastmod(self, obj):
         return obj.modified
