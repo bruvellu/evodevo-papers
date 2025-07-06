@@ -19,9 +19,8 @@ class Command(BaseCommand):
         else:
             self.stdout.write("No new posts to publish!")
 
-            # Publish a random post?
+            # TODO: Publish a random post?
             # for client in clients:
             # Client.objects.filter(is_active=True)
-
                 # statuses = Status.objects.filter(client=client)
 

@@ -34,6 +34,7 @@ def feed(request, id):
 
 
 def posts(request):
+    # TODO: Paginate posts, there are too many already
     posts = Post.objects.order_by("-created")
     context = {"posts": posts}
     return render(request, "posts.html", context)
