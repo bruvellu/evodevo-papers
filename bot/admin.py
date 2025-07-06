@@ -27,6 +27,7 @@ class StatusAdmin(admin.ModelAdmin):
         "id",
         "post__title",
         "client__platform",
+        "client__account",
         "url",
         "created",
         "published",
