@@ -78,7 +78,7 @@ class Status(models.Model):
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"id=[{self.id}] [{self.client}] \"{self.post.title[:50]}...\""
+        return f"[{self.id}] [{self.client}] \"{self.post.title[:50]}...\""
 
     def build_text(self, facets=False):
         # Faceted text object required for Bluesky
