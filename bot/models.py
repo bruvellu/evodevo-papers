@@ -47,6 +47,7 @@ class Post(models.Model):
     modified = models.DateTimeField(auto_now=True)
     title = models.TextField(blank=True)
     link = models.URLField(blank=True)
+    is_new = models.BooleanField(default=True)
 
     def __str__(self):
         return f"[{self.id}] \"{self.entry.title[:50]}...\""
@@ -58,6 +59,11 @@ class Post(models.Model):
         for client in Client.objects.filter(is_active=True):
             status, created = Status.objects.get_or_create(post=self, client=client)
             status.save()
+
+    def update_is_new(self):
+        publist = self.statuses.values_list('is_published', flat=True)
+        if True in publist:
+            self.is_new = False
 
     @property
     def display_text(self):
