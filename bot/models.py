@@ -38,6 +38,8 @@ class Post(models.Model):
     entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    title = models.TextField(blank=True)
+    link = models.URLField(blank=True)
 
     def __str__(self):
         return f"Post[{self.id}]: {self.entry.title[:30]}..."
