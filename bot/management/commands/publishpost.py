@@ -1,32 +1,27 @@
 from django.core.management.base import BaseCommand
-from bot.models import Client, Post
-from mastodon import Mastodon
+from bot.models import Client, Post, Status
 
 
 class Command(BaseCommand):
-    help = "Publish single post to Mastodon."
+    help = "Publish statuses for a single new post."
 
     def handle(self, *args, **options):
-        # Get the oldest unpublished post object
-        post = Post.objects.filter(published=False).order_by("id").first()
 
-        if post:
-            client = Client.objects.get(account="@evodevo_papers@biologists.social")
-            mastodon = Mastodon(
-                access_token=client.access_token, api_base_url=client.api_base_url
-            )
-            response = mastodon.status_post(
-                post.text, visibility="unlisted", language="en"
-            )
+        # Fetch the oldest unpublished post
+        new_post = Post.objects.filter(is_new=True).order_by('created').first()
 
-            post.created = response["created_at"]
-            post.url = response["url"]
-            post.response = response
-            post.published = True
-            post.save()
-
-            self.stdout.write(f"{post.text}")
-            self.stdout.write(f"{post.url}")
-
+        # Publish new post statuses (for each active client)
+        if new_post:
+            for status in new_post.statuses.all():
+                response = status.publish()
+                if response:
+                    self.stdout.write(f"Posted to {status.client.account}: {status.text}")
         else:
             self.stdout.write("No new posts to publish!")
+
+            # Publish a random post?
+            # for client in clients:
+            # Client.objects.filter(is_active=True)
+
+                # statuses = Status.objects.filter(client=client)
+
