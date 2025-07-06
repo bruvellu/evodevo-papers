@@ -67,6 +67,7 @@ class Status(models.Model):
     url = models.URLField(blank=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    published = models.DateTimeField(null=True, blank=True)
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
@@ -87,7 +88,7 @@ class Status(models.Model):
         return text.build_text()
 
     def save(self, *args, **kwargs):
-        if not self.published:
+        if not self.is_published:
             self.text = self.build_text()
         super().save(*args, **kwargs)
 
