@@ -102,7 +102,13 @@ class Status(models.Model):
         return text.build_text()
 
     def publish(self):
-        if not self.is_published:
+        if not self.client.is_active:
+            print(f"Refusing to publish. Account inactive: {self.client.account}")
+            return False
+        elif self.is_published:
+            print(f"Ignoring. Already published to {self.client.account}")
+            return False
+        elif self.client.is_active and not self.is_published:
             try:
                 if self.client.platform == "Mastodon":
                     self.post_to_mastodon()
@@ -113,6 +119,12 @@ class Status(models.Model):
             except Exception as e:
                 print(f"Failed publishing to {self.client.account}: {str(e)}")
                 return False
+        else:
+            print(f"Unexpected condition. This should not happen. {self.client.account}")
+            print(f"{self}")
+            print(f"{self.client}")
+            print(f"{self.post}")
+            return False
 
     def post_to_mastodon(self):
         mastodon = Mastodon(
