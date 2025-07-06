@@ -157,8 +157,3 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "statuses"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["post", "client"], name="unique_status_per_client_post"
-            )
-        ]
