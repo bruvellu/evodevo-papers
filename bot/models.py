@@ -42,7 +42,7 @@ class Feed(models.Model):
 
 
 class Post(models.Model):
-    entry = models.ForeignKey(Entry, blank=True, null=True, on_delete=models.SET_NULL)
+    entry = models.OneToOneField(Entry, blank=True, null=True, on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     title = models.TextField(blank=True)
