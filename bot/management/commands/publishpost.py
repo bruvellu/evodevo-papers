@@ -16,6 +16,7 @@ class Command(BaseCommand):
                 response = status.publish()
                 if response:
                     self.stdout.write(f"Posted to {status.client.account}: {status.text}")
+            new_post.update_is_new()
         else:
             self.stdout.write("No new posts to publish!")
 
