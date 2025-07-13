@@ -141,33 +141,40 @@ class Status(models.Model):
         self.is_published = True
         self.save()
 
+    def login_bluesky(self):
+        if not hasattr(self, 'bluesky'):
+            self.bluesky = ATClient()
+            self.bluesky.login(self.client.handle, self.client.access_token)
+            print(f"Logged to @{self.bluesky.me.handle}")
+        else:
+            print(f"Already logged to @{self.bluesky.me.handle}")
+
     def post_to_bluesky(self):
         # TODO: Improve failure handling, simplify to getting response
-        bluesky = ATClient()
         # TODO: Fetch profile follower count
         # TODO: Fetch post stats (likes, reposts, etc.)
-        profile = bluesky.login(self.client.handle, self.client.access_token)
-        response = bluesky.send_post(self.build_text(facets=True))
+        self.login_bluesky()
+        response = self.bluesky.send_post(self.build_text(facets=True))
         print(response)
-        posts = bluesky.get_posts([response.uri])
+        posts = self.bluesky.get_posts([response.uri])
         print(posts)
         if posts.posts:
             post = posts.posts[0]
-            print("got posts 1st time")
+            print("Got posts 1st time")
         else:
             import time
             time.sleep(2)
-            posts = bluesky.get_posts([response.uri])
+            posts = self.bluesky.get_posts([response.uri])
             if posts.posts:
                 post = posts.posts[0]
-                print("got posts 2nd time")
+                print("Got posts 2nd time")
 
         if posts.posts:
             self.response = post.dict()
             self.url = self.bluesky_uri_to_url(post.uri)
             self.published = post.record.created_at
         else:
-            print("got no posts")
+            print("Got no posts")
             self.response = response.dict()
             self.url = self.bluesky_uri_to_url(response.uri)
         self.is_published = True
@@ -188,7 +195,6 @@ class Status(models.Model):
             print(f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}")
 
         post = posts.posts[0]
-        # TODO: Fetch post stats (likes, reposts, etc.)
         self.response = post.dict()
         self.url = self.bluesky_uri_to_url(post.uri)
         self.published = post.record.created_at
