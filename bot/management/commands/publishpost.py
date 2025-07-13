@@ -12,7 +12,9 @@ class Command(BaseCommand):
 
         # Publish new post statuses (for each active client)
         if new_post:
+            self.stdout.write(f"Post: {new_post}")
             for status in new_post.statuses.all():
+                self.stdout.write(f"Status: {status}")
                 response = status.publish()
                 if response:
                     self.stdout.write(f"Posted to {status.client.account}: {status.text}")
