@@ -147,6 +147,7 @@ class Status(models.Model):
         profile = bluesky.login(self.client.handle, self.client.access_token)
         response = bluesky.send_post(self.build_text(facets=True))
         posts = bluesky.get_posts([response.uri])
+        print(posts)
         post = posts.posts[0]
         # TODO: Fetch post stats (likes, reposts, etc.)
         self.response = post.dict()
