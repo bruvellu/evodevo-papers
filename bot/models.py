@@ -142,12 +142,51 @@ class Status(models.Model):
         self.save()
 
     def post_to_bluesky(self):
+        # TODO: Improve failure handling, simplify to getting response
         bluesky = ATClient()
         # TODO: Fetch profile follower count
+        # TODO: Fetch post stats (likes, reposts, etc.)
         profile = bluesky.login(self.client.handle, self.client.access_token)
         response = bluesky.send_post(self.build_text(facets=True))
+        print(response)
         posts = bluesky.get_posts([response.uri])
         print(posts)
+        if posts.posts:
+            post = posts.posts[0]
+            print("got posts 1st time")
+        else:
+            import time
+            time.sleep(2)
+            posts = bluesky.get_posts([response.uri])
+            if posts.posts:
+                post = posts.posts[0]
+                print("got posts 2nd time")
+
+        if posts.posts:
+            self.response = post.dict()
+            self.url = self.bluesky_uri_to_url(post.uri)
+            self.published = post.record.created_at
+        else:
+            print("got no posts")
+            self.response = response.dict()
+            self.url = self.bluesky_uri_to_url(response.uri)
+        self.is_published = True
+        self.save()
+
+    def get_bluesky_post_info(self):
+        # TODO: Make this a separate function?
+        bluesky = ATClient()
+        profile = bluesky.login(self.client.handle, self.client.access_token)
+        posts = bluesky.get_posts([self.response.uri])
+        print(f"Posts: {posts}")
+        print(f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}")
+        if not posts.posts:
+            print("Posts empty... waiting 2 seconds and retrying...")
+            time.sleep(2)
+            posts = bluesky.get_posts([self.response.uri])
+            print(f"Posts: {posts}")
+            print(f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}")
+
         post = posts.posts[0]
         # TODO: Fetch post stats (likes, reposts, etc.)
         self.response = post.dict()
