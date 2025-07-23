@@ -27,7 +27,7 @@ class Command(BaseCommand):
         # Loop over new feed entries
         for entry in entries_without_a_post:
             # Create new post
-            post = Post(entry=entry)
+            post = Post(entry=entry, title=entry.title, link=entry.link)
             post.save()
             # Create linked statuses
             post.get_or_create_statuses()
