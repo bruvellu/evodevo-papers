@@ -7,15 +7,15 @@ def update_is_new(apps, schema_editor):
     Post = apps.get_model("bot", "Post")
 
     for post in Post.objects.all():
-        publist = post.statuses.values_list('is_published', flat=True)
+        publist = post.statuses.values_list("is_published", flat=True)
         if True in publist:
             post.is_new = False
             post.save()
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
-        ('bot', '0033_post_is_new'),
+        ("bot", "0033_post_is_new"),
     ]
 
     operations = [

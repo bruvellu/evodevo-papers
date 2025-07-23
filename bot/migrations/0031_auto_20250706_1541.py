@@ -15,9 +15,8 @@ def create_statuses(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0030_status_unique_status_per_post_client'),
+        ("bot", "0030_status_unique_status_per_post_client"),
     ]
 
     operations = [

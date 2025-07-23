@@ -5,16 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0031_auto_20250706_1541'),
-        ('feeds', '0015_source_alt_url'),
+        ("bot", "0031_auto_20250706_1541"),
+        ("feeds", "0015_source_alt_url"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='entry',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='feeds.post'),
+            model_name="post",
+            name="entry",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="feeds.post",
+            ),
         ),
     ]

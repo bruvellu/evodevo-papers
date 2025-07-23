@@ -4,14 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0029_auto_20250706_1528'),
+        ("bot", "0029_auto_20250706_1528"),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='status',
-            constraint=models.UniqueConstraint(fields=('post', 'client'), name='unique_status_per_post_client'),
+            model_name="status",
+            constraint=models.UniqueConstraint(
+                fields=("post", "client"), name="unique_status_per_post_client"
+            ),
         ),
     ]

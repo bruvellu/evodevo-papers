@@ -7,18 +7,17 @@ def assign_botsin(apps, schema_editor):
     Status = apps.get_model("bot", "Status")
     Client = apps.get_model("bot", "Client")
 
-    botsin = Client.objects.get(account='@evodevo_papers@botsin.space')
+    botsin = Client.objects.get(account="@evodevo_papers@botsin.space")
 
     for status in Status.objects.all():
-        if status.url.startswith('https://botsin.space'):
+        if status.url.startswith("https://botsin.space"):
             status.client = botsin
             status.save()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0028_remove_status_unique_status_per_client_post'),
+        ("bot", "0028_remove_status_unique_status_per_client_post"),
     ]
 
     operations = [

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0032_alter_post_entry'),
+        ("bot", "0032_alter_post_entry"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='is_new',
+            model_name="post",
+            name="is_new",
             field=models.BooleanField(default=True),
         ),
     ]
