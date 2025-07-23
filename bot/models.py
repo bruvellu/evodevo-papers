@@ -42,7 +42,9 @@ class Feed(models.Model):
 
 
 class Post(models.Model):
-    entry = models.OneToOneField(Entry, blank=True, null=True, on_delete=models.SET_NULL)
+    entry = models.OneToOneField(
+        Entry, blank=True, null=True, on_delete=models.SET_NULL
+    )
     title = models.TextField(blank=True)
     link = models.URLField(blank=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -50,7 +52,7 @@ class Post(models.Model):
     is_new = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"[{self.id}] \"{self.title[:50]}...\""
+        return f'[{self.id}] "{self.title[:50]}..."'
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
@@ -61,7 +63,7 @@ class Post(models.Model):
             status.save()
 
     def update_is_new(self):
-        publist = self.statuses.values_list('is_published', flat=True)
+        publist = self.statuses.values_list("is_published", flat=True)
         if True in publist:
             self.is_new = False
             self.save()
@@ -85,7 +87,7 @@ class Status(models.Model):
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"[{self.id}] [{self.client}] \"{self.post.title[:50]}...\""
+        return f'[{self.id}] [{self.client}] "{self.post.title[:50]}..."'
 
     def build_text(self, facets=False):
         # Faceted text object required for Bluesky
@@ -120,7 +122,9 @@ class Status(models.Model):
                 print(f"Failed publishing to {self.client.account}: {str(e)}")
                 return False
         else:
-            print(f"Unexpected condition. This should not happen. {self.client.account}")
+            print(
+                f"Unexpected condition. This should not happen. {self.client.account}"
+            )
             print(f"{self}")
             print(f"{self.client}")
             print(f"{self.post}")
@@ -142,7 +146,7 @@ class Status(models.Model):
         self.save()
 
     def login_bluesky(self):
-        if not hasattr(self, 'bluesky'):
+        if not hasattr(self, "bluesky"):
             self.bluesky = ATClient()
             self.bluesky.login(self.client.handle, self.client.access_token)
             print(f"Logged to @{self.bluesky.me.handle}")
@@ -163,6 +167,7 @@ class Status(models.Model):
             print("Got posts 1st time")
         else:
             import time
+
             time.sleep(2)
             posts = self.bluesky.get_posts([response.uri])
             if posts.posts:
@@ -183,16 +188,22 @@ class Status(models.Model):
     def get_bluesky_post_info(self):
         # TODO: Make this a separate function?
         bluesky = ATClient()
-        profile = bluesky.login(self.client.handle, self.client.access_token)
+        bluesky.login(self.client.handle, self.client.access_token)
         posts = bluesky.get_posts([self.response.uri])
         print(f"Posts: {posts}")
-        print(f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}")
+        print(
+            f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}"
+        )
         if not posts.posts:
             print("Posts empty... waiting 2 seconds and retrying...")
+            import time
+
             time.sleep(2)
             posts = bluesky.get_posts([self.response.uri])
             print(f"Posts: {posts}")
-            print(f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}")
+            print(
+                f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}"
+            )
 
         post = posts.posts[0]
         self.response = post.dict()
