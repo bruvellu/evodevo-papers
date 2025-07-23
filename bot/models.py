@@ -43,14 +43,14 @@ class Feed(models.Model):
 
 class Post(models.Model):
     entry = models.OneToOneField(Entry, blank=True, null=True, on_delete=models.SET_NULL)
-    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    modified = models.DateTimeField(auto_now=True)
     title = models.TextField(blank=True)
     link = models.URLField(blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True)
     is_new = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"[{self.id}] \"{self.entry.title[:50]}...\""
+        return f"[{self.id}] \"{self.title[:50]}...\""
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
