@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django_distill import distill_path
-from bot.views import home, about, feeds, feed, posts, post
-from bot.models import Feed, Post
+
 from bot.feeds import PostsFeed
+from bot.models import Feed, Post
 from bot.sitemaps import sitemaps
+from bot.views import about, feed, feeds, home, post, posts
 
 
 # Feed objects function required for static pages

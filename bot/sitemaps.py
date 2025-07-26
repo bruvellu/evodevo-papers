@@ -1,6 +1,7 @@
 from django.contrib.sitemaps import Sitemap
-from bot.models import Feed, Post
 from django.urls import reverse
+
+from bot.models import Feed, Post
 
 
 class PostSitemap(Sitemap):

@@ -1,4 +1,5 @@
 from django.contrib.syndication.views import Feed
+
 from bot.models import Post
 
 

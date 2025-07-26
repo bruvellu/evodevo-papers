@@ -1,6 +1,6 @@
 from django import template
-from django.utils.html import format_html
 from django.template.loader import render_to_string
+from django.utils.html import format_html
 
 register = template.Library()
 
