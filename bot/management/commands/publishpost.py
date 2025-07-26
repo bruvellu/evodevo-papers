@@ -7,9 +7,8 @@ class Command(BaseCommand):
     help = "Publish social media statuses for posts."
 
     def handle(self, *args, **options):
-        # Priority 1: Publish new posts
+        # Priority 1: Publish statuses for new posts, if existing
 
-        # Fetch oldest unpublished post
         new_post = Post.objects.filter(is_new=True).order_by("created").first()
 
         if new_post:
@@ -19,10 +18,8 @@ class Command(BaseCommand):
         else:
             self.stdout.write("No new posts to publish.")
 
-            # TODO: Publish a random post?
-            # for client in clients:
-            # Client.objects.filter(is_active=True)
-            # statuses = Status.objects.filter(client=client)
+            # TODO: Priority 2: Publish a random unpublished post?
+            # TODO: Priority 3: Boost a random published post?
 
     def publish_new_post_statuses(self, new_post):
         for status in new_post.statuses.all():
