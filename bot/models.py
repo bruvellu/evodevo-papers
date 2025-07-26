@@ -138,14 +138,20 @@ class Status(models.Model):
             return True
         return False
 
-    def post_to_mastodon(self):
-        try:
-            # TODO: Create login_mastodon function
-            mastodon = Mastodon(
+    def login_mastodon(self):
+        if not hasattr(self, "mastodon"):
+            self.mastodon = Mastodon(
                 access_token=self.client.access_token,
                 api_base_url=self.client.api_base_url,
             )
-            response = mastodon.status_post(
+            print(f"Logged to {self.client.account}")
+        else:
+            print(f"Already logged to {self.client.account}")
+
+    def post_to_mastodon(self):
+        try:
+            self.login_mastodon()
+            response = self.mastodon.status_post(
                 self.build_text(), visibility="unlisted", language="en"
             )
             self.response = json.loads(response.to_json())["_mastopy_data"]
@@ -162,9 +168,9 @@ class Status(models.Model):
         if not hasattr(self, "bluesky"):
             self.bluesky = ATClient()
             self.bluesky.login(self.client.handle, self.client.access_token)
-            print(f"Logged to @{self.bluesky.me.handle}")
+            print(f"Logged to {self.client.account}")
         else:
-            print(f"Already logged to @{self.bluesky.me.handle}")
+            print(f"Already logged to {self.client.account}")
 
     def post_to_bluesky(self):
         try:
