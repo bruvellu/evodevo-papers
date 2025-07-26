@@ -1,8 +1,10 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from feeds.models import Post as Entry
 from feeds.models import Source
 import json
+import time
 
 from mastodon import Mastodon
 from atproto import Client as ATClient
@@ -105,45 +107,56 @@ class Status(models.Model):
 
     def publish(self):
         if not self.client.is_active:
-            print(f"Refusing to publish. Account inactive: {self.client.account}")
+            print(
+                f"Refusing to publish. Client account is inactive: {self.client.account}"
+            )
             return False
         elif self.is_published:
-            print(f"Ignoring. Already published to {self.client.account}")
+            print(
+                f"Refusing to publish. Status already published: {self.client.account}"
+            )
             return False
         elif self.client.is_active and not self.is_published:
-            try:
-                if self.client.platform == "Mastodon":
-                    self.post_to_mastodon()
-                elif self.client.platform == "Bluesky":
-                    self.post_to_bluesky()
-                print(f"Published to {self.client.account}")
+            published = self.post_to_current_client()
+            if published:
                 return True
-            except Exception as e:
-                print(f"Failed publishing to {self.client.account}: {str(e)}")
-                return False
+            return False
         else:
-            print(
-                f"Unexpected condition. This should not happen. {self.client.account}"
-            )
+            print("Unexpected condition; shouldn't happen.")
             print(f"{self}")
             print(f"{self.client}")
             print(f"{self.post}")
             return False
 
+    def post_to_current_client(self):
+        if self.client.platform == "Mastodon":
+            posted = self.post_to_mastodon()
+        elif self.client.platform == "Bluesky":
+            posted = self.post_to_bluesky()
+
+        if posted:
+            return True
+        return False
+
     def post_to_mastodon(self):
-        mastodon = Mastodon(
-            access_token=self.client.access_token, api_base_url=self.client.api_base_url
-        )
-        response = mastodon.status_post(
-            self.build_text(), visibility="unlisted", language="en"
-        )
-        # TODO: Fetch account follower count
-        # TODO: Fetch post stats (likes, reposts, etc.)
-        self.response = json.loads(response.to_json())["_mastopy_data"]
-        self.url = response.url
-        self.published = response.created_at
-        self.is_published = True
-        self.save()
+        try:
+            # TODO: Create login_mastodon function
+            mastodon = Mastodon(
+                access_token=self.client.access_token,
+                api_base_url=self.client.api_base_url,
+            )
+            response = mastodon.status_post(
+                self.build_text(), visibility="unlisted", language="en"
+            )
+            self.response = json.loads(response.to_json())["_mastopy_data"]
+            self.url = response.url
+            self.published = response.created_at
+            self.is_published = True
+            self.save()
+            return True
+        except Exception as e:
+            print(f"Failed posting to {self.client.account}: {str(e)}")
+            return False
 
     def login_bluesky(self):
         if not hasattr(self, "bluesky"):
@@ -154,63 +167,38 @@ class Status(models.Model):
             print(f"Already logged to @{self.bluesky.me.handle}")
 
     def post_to_bluesky(self):
-        # TODO: Improve failure handling, simplify to getting response
-        # TODO: Fetch profile follower count
-        # TODO: Fetch post stats (likes, reposts, etc.)
-        self.login_bluesky()
-        response = self.bluesky.send_post(self.build_text(facets=True))
-        print(response)
-        posts = self.bluesky.get_posts([response.uri])
-        print(posts)
+        try:
+            self.login_bluesky()
+            response = self.bluesky.send_post(self.build_text(facets=True))
+            post = self.get_bluesky_post_info(response.uri)
+            if post:
+                print(f"Fetched Bluesky post info from uri={response.uri}")
+                self.response = post.dict()
+                self.url = self.bluesky_uri_to_url(post.uri)
+                self.published = post.record.created_at
+            else:
+                print(f"Failed to fetch Bluesky post info from uri={response.uri}")
+                self.response = response.dict()
+                self.url = self.bluesky_uri_to_url(response.uri)
+                self.published = timezone.now()
+            self.is_published = True
+            self.save()
+            return True
+        except Exception as e:
+            print(f"Failed posting to {self.client.account}: {str(e)}")
+            return False
+
+    def get_bluesky_post_info(self, uri):
+        # Avoid racing condition when getting Bluesky post info
+        time.sleep(1)
+        posts = self.bluesky.get_posts([uri])
         if posts.posts:
-            post = posts.posts[0]
-            print("Got posts 1st time")
-        else:
-            import time
-
-            time.sleep(2)
-            posts = self.bluesky.get_posts([response.uri])
-            if posts.posts:
-                post = posts.posts[0]
-                print("Got posts 2nd time")
-
+            return posts.posts[0]
+        time.sleep(3)
+        posts = self.bluesky.get_posts([uri])
         if posts.posts:
-            self.response = post.dict()
-            self.url = self.bluesky_uri_to_url(post.uri)
-            self.published = post.record.created_at
-        else:
-            print("Got no posts")
-            self.response = response.dict()
-            self.url = self.bluesky_uri_to_url(response.uri)
-        self.is_published = True
-        self.save()
-
-    def get_bluesky_post_info(self):
-        # TODO: Make this a separate function?
-        bluesky = ATClient()
-        bluesky.login(self.client.handle, self.client.access_token)
-        posts = bluesky.get_posts([self.response.uri])
-        print(f"Posts: {posts}")
-        print(
-            f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}"
-        )
-        if not posts.posts:
-            print("Posts empty... waiting 2 seconds and retrying...")
-            import time
-
-            time.sleep(2)
-            posts = bluesky.get_posts([self.response.uri])
-            print(f"Posts: {posts}")
-            print(
-                f"posts.posts: {len(posts.posts) if hasattr(posts, 'posts') else 'No posts attr'}"
-            )
-
-        post = posts.posts[0]
-        self.response = post.dict()
-        self.url = self.bluesky_uri_to_url(post.uri)
-        self.published = post.record.created_at
-        self.is_published = True
-        self.save()
+            return posts.posts[0]
+        return None
 
     def bluesky_uri_to_url(self, uri):
         """Convert Bluesky URI to URL.
