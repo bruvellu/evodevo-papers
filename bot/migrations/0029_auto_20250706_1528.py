@@ -7,7 +7,9 @@ def assign_botsin(apps, schema_editor):
     Status = apps.get_model("bot", "Status")
     Client = apps.get_model("bot", "Client")
 
-    botsin, created = Client.objects.get_or_create(account="@evodevo_papers@botsin.space")
+    botsin, created = Client.objects.get_or_create(
+        account="@evodevo_papers@botsin.space"
+    )
 
     for status in Status.objects.all():
         if status.url.startswith("https://botsin.space"):

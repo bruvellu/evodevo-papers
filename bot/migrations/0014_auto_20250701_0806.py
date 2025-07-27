@@ -8,7 +8,9 @@ def create_statuses(apps, schema_editor):
     Status = apps.get_model("bot", "Status")
     Client = apps.get_model("bot", "Client")
 
-    mastodon_client, created = Client.objects.get_or_create(account="@evodevo_papers@biologists.social")
+    mastodon_client, created = Client.objects.get_or_create(
+        account="@evodevo_papers@biologists.social"
+    )
 
     for post in Post.objects.all():
         status = Status(
