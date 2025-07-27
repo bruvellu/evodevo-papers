@@ -19,7 +19,9 @@ class FeedAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "created", "is_new"]
+    list_display = ["id", "title", "link", "entry__source__feed__name", "created", "is_new"]
+    list_filter = ["entry__source__feed__name", "is_new", "created"]
+    search_fields = ["title"]
     readonly_fields = ["created", "modified"]
 
 
@@ -28,12 +30,13 @@ class StatusAdmin(admin.ModelAdmin):
         "id",
         "post__title",
         "client__platform",
-        "client__account",
         "url",
         "created",
         "published",
         "is_published",
     ]
+    list_filter = ["client__platform", "is_published", "published", "created"]
+    search_fields = ["post__title"]
     readonly_fields = ["created", "modified"]
 
 
