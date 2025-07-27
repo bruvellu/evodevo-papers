@@ -4,3 +4,4 @@ backups
 cron.sh
 db.sqlite3
 website
+bot/fixtures
