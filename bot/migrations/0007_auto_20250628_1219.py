@@ -5,7 +5,7 @@ from django.db import migrations
 
 def update_site(apps, schema_editor):
     SiteModel = apps.get_model("sites", "Site")
-    site = SiteModel.objects.get(id=1)
+    site, created = SiteModel.objects.get_or_create(id=1)
     site.name = "evodevo.brunovellutini.com"
     site.domain = "evodevo.brunovellutini.com"
     site.save()
@@ -14,6 +14,7 @@ def update_site(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("bot", "0006_feed_description"),
+        ('sites', '0001_initial'),
     ]
 
     operations = [
