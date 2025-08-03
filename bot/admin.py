@@ -10,6 +10,7 @@ class ClientAdmin(admin.ModelAdmin):
 class FeedAdmin(admin.ModelAdmin):
     list_display = [
         "name",
+        "is_active",
         "source",
         "source__live",
         "source__status_code",
