@@ -87,7 +87,7 @@ class CreatePostsTestCase(TestCase):
         random_ids = list(Post.objects.order_by("?").values_list("id", flat=True)[:3])
         Post.objects.filter(id__in=random_ids).delete()
 
-        # Test order created 
+        # Test order created
         entries = list(self.cmd.get_new_entries())
         created_list = [e.created for e in entries]
         self.assertEqual(created_list, sorted(created_list))
