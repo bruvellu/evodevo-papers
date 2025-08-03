@@ -1,4 +1,7 @@
+from django.core.management import load_command_class
 from django.test import Client, TestCase
+
+from bot.models import Post
 
 
 class ViewsTestCase(TestCase):
@@ -46,3 +49,29 @@ class ViewsTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "posts")
+
+
+class CreatePostsTestCase(TestCase):
+    """Test cases for createposts management command."""
+
+    fixtures = [
+        "posts.json",
+        "entries.json",
+        "sources.json",
+        "feeds.json",
+        "statuses.json",
+        "clients.json",
+    ]
+
+    def setUp(self):
+        """Set up test data for all view tests."""
+        self.cmd = load_command_class("bot", "createposts")
+
+    def test_exclude_entries_with_existing_posts(self):
+        """Entries with existing posts should NOT be in new_entries."""
+        new_entries = self.cmd.get_new_entries()
+        new_entries_with_post = Post.objects.filter(entry__in=new_entries)
+        self.assertFalse(
+            new_entries_with_post.exists(),
+            f"These entries already have a Post: {[post.entry_id for post in new_entries_with_post]}",
+        )
