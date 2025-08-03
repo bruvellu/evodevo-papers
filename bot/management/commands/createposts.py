@@ -17,9 +17,12 @@ class Command(BaseCommand):
         """
 
         new_entries = self.get_new_entries()
-        self.stdout.write(f"{new_entries.count()} new feed entries!")
+        filtered_entries = self.filter_entries(entries)
 
-        for entry in new_entries:
+        self.stdout.write(f"{new_entries.count()} total new entries")
+        self.stdout.write(f"{filtered_entries.count()} filtered new entries")
+
+        for entry in filtered_entries:
             post = self.create_post_from_entry(entry)
             post.get_or_create_statuses()
             self.stdout.write(self.style.SUCCESS(post))
@@ -35,9 +38,6 @@ class Command(BaseCommand):
 
         # Exclude entries that already have a Post instance
         entries_without_a_post = Entry.objects.exclude(id__in=entries_with_posts)
-
-        # Exclude entries that are not articles (case insensitive)
-        entries_without_a_post = self.filter_entries(entries_without_a_post)
 
         # Order by oldest to newest using the creation date
         entries_without_a_post = entries_without_a_post.order_by("created")
