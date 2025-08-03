@@ -8,21 +8,30 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Priority 1: Publish statuses for new posts, if existing
-
         new_post = Post.objects.filter(is_new=True).order_by("created").first()
 
         if new_post:
             self.stdout.write(f"New post found: {new_post}")
-            self.publish_new_post_statuses(new_post)
+            self.publish_post_statuses(new_post)
 
         else:
             self.stdout.write("No new posts to publish.")
 
-            # TODO: Priority 2: Publish a random unpublished post?
+            # Priority 2: Publish a random unpublished post
+            old_post = (
+                Post.objects.filter(
+                    statuses__is_published=False, statuses__client__is_active=True
+                )
+                .distinct()
+                .order_by("?")
+                .first()
+            )
+            self.publish_post_statuses(old_post)
+
             # TODO: Priority 3: Boost a random published post?
 
-    def publish_new_post_statuses(self, new_post):
-        for status in new_post.statuses.all():
+    def publish_post_statuses(self, post):
+        for status in post.statuses.all():
             self.stdout.write(f"Found status: {status}")
             published = status.publish()
             if published:
@@ -30,4 +39,4 @@ class Command(BaseCommand):
                     f"Published to {status.client.account}: {status.text}"
                 )
 
-        new_post.update_is_new()
+        post.update_is_new()
