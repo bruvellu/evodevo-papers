@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 from feeds.models import Post as Entry
 
 from bot.models import Post
