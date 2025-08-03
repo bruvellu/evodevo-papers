@@ -162,5 +162,5 @@ class Command(BaseCommand):
                 pks=pks_str,
                 indent=2,
                 output=f"{outdir}/{name}.json",
-                verbosity=0
+                verbosity=0,
             )
