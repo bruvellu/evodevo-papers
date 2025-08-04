@@ -17,7 +17,7 @@ class Command(BaseCommand):
         """
 
         new_entries = self.get_new_entries()
-        filtered_entries = self.filter_entries(entries)
+        filtered_entries = self.filter_entries(new_entries)
 
         self.stdout.write(f"{new_entries.count()} total new entries")
         self.stdout.write(f"{filtered_entries.count()} filtered new entries")
