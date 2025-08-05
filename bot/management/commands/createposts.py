@@ -25,7 +25,7 @@ class Command(BaseCommand):
         for entry in filtered_entries:
             post = self.create_post_from_entry(entry)
             post.get_or_create_statuses()
-            self.stdout.write(self.style.SUCCESS(post))
+            self.stdout.write(self.style.SUCCESS(str(post)))
 
     def get_new_entries(self):
         """
