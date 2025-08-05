@@ -1,4 +1,5 @@
 from django.contrib.syndication.views import Feed
+from django.template.loader import render_to_string
 
 from bot.models import Post
 
@@ -6,7 +7,7 @@ from bot.models import Post
 class PostsFeed(Feed):
     title = "EvoDevo Papers latest posts"
     link = "/feed/"
-    description = "Posting the latest papers in evolutionary developmental biology."
+    description = "Streaming the latest papers in evolutionary developmental biology."
 
     def items(self):
         return Post.objects.order_by("-created")[:20]
@@ -15,4 +16,4 @@ class PostsFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return item.display_text
+        return render_to_string("rss_item_description.html", {"item": item})

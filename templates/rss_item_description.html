@@ -1,0 +1,6 @@
+<h2>Description</h2>
+<p>{{ item.entry.body|safe }}</p>
+<h2>Details</h2>
+<p><strong>Link:</strong> {{ item.entry.link|urlize }}</p>
+<p><strong>Source:</strong> <a href="{{ item.entry.source.feed_url }}">{{ item.entry.source.feed.name }}</a> ({{ item.entry.source.feed.description }})</p>
+<p><strong>Published:</strong> {{ item.entry.created }}</p>
