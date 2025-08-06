@@ -10,6 +10,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Read, parse, and import the JSON file with backed-up tweets."""
 
+        self.stdout.write(f"Reading...")
+
         with open("tweets.js", "r", encoding="utf-8") as f:
             tweets = json.load(f)
 
@@ -21,8 +23,16 @@ class Command(BaseCommand):
                 id = tweet["id"]
                 created_at = self.get_created_at_datetime(tweet["created_at"])
 
+                url = tweet["entities"]["urls"][0]["url"]
+                expanded_url = tweet["entities"]["urls"][0]["expanded_url"]
+                full_text = tweet["full_text"]
+
+                # TODO: Resolve short expanded_url to get cleaned_url
+                cleaned_text = full_text.replace(url, expanded_url)
+
                 print(id, created_at)
-                print(tweet["full_text"])
+                print(url, expanded_url)
+                print(cleaned_text)
                 print()
 
     def get_created_at_datetime(self, created_at):
@@ -30,8 +40,14 @@ class Command(BaseCommand):
         # Example: "Thu Nov 03 05:19:51 +0000 2022"
         return datetime.strptime(created_at, "%a %b %d %H:%M:%S %z %Y")
 
-    def replace_shortened_by_expanded_url(self):
-        """Replace t.co URL by true expanded URL in the full_text."""
+    def resolve_expanded_url(self, expanded_url):
+        """Resolve ift.tt and dlvr.it URLs to their true address."""
+        if (
+            expanded_url.startswith("http://dlvr.it")
+            or expanded_url.startswith("http://ift.tt")
+        ):
+            # TODO: Resolve using requests
+            pass
 
     def remove_hashtag(self):
         """Remove #evodevo hashtag from full_text."""
