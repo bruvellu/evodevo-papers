@@ -32,7 +32,7 @@ class Feed(models.Model):
     description = models.TextField(blank=True)
     created = models.DateTimeField(null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     source = models.OneToOneField(
         Source, blank=True, null=True, on_delete=models.SET_NULL
     )
