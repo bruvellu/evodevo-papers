@@ -1,4 +1,5 @@
 import json
+import requests
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
@@ -28,6 +29,7 @@ class Command(BaseCommand):
                 full_text = tweet["full_text"]
 
                 # TODO: Resolve short expanded_url to get cleaned_url
+                # resolved_url = self.resolve_expanded_url(expanded_url)
                 cleaned_text = full_text.replace(url, expanded_url)
 
                 print(id, created_at)
@@ -46,8 +48,10 @@ class Command(BaseCommand):
             expanded_url.startswith("http://dlvr.it")
             or expanded_url.startswith("http://ift.tt")
         ):
-            # TODO: Resolve using requests
-            pass
+            response = requests.head(expanded_url, allow_redirects=True, timeout=10)
+            return response.url
+        else:
+            return expanded_url
 
     def remove_hashtag(self):
         """Remove #evodevo hashtag from full_text."""
