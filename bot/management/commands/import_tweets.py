@@ -1,7 +1,7 @@
 import json
-import requests
 from datetime import datetime
 
+import requests
 from django.core.management.base import BaseCommand
 
 
@@ -18,8 +18,15 @@ class Command(BaseCommand):
 
             self.stdout.write(f"Found {len(tweets)} tweets.")
 
-            for tweet_data in tweets:
-                tweet = tweet_data["tweet"]
+            sorted_tweets = sorted(
+                tweets,
+                key=lambda entry: self.get_created_at_datetime(
+                    entry["tweet"]["created_at"]
+                ),
+            )
+
+            for tweet_entry in sorted_tweets:
+                tweet = tweet_entry["tweet"]
 
                 id = tweet["id"]
                 created_at = self.get_created_at_datetime(tweet["created_at"])
@@ -33,7 +40,7 @@ class Command(BaseCommand):
                 cleaned_text = full_text.replace(url, expanded_url)
 
                 print(id, created_at)
-                print(url, expanded_url)
+                # print(url, expanded_url)
                 print(cleaned_text)
                 print()
 
@@ -44,9 +51,8 @@ class Command(BaseCommand):
 
     def resolve_expanded_url(self, expanded_url):
         """Resolve ift.tt and dlvr.it URLs to their true address."""
-        if (
-            expanded_url.startswith("http://dlvr.it")
-            or expanded_url.startswith("http://ift.tt")
+        if expanded_url.startswith("http://dlvr.it") or expanded_url.startswith(
+            "http://ift.tt"
         ):
             response = requests.head(expanded_url, allow_redirects=True, timeout=10)
             return response.url
