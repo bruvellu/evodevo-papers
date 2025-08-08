@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 
 import requests
@@ -11,38 +12,56 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Read, parse, and import the JSON file with backed-up tweets."""
 
-        self.stdout.write(f"Reading...")
+        # Define input/output files and open
+        input_tweets = "tweets.js"
+        output_tweets = "processed_tweets.json"
 
-        with open("tweets.js", "r", encoding="utf-8") as f:
+        if os.path.exists(output_tweets):
+            with open(output_tweets, "r", encoding="utf-8") as f:
+                processed_tweets = json.load(f)
+        else:
+            processed_tweets = {}
+
+        self.stdout.write(f"Reading {input_tweets}...")
+
+        with open(input_tweets, "r", encoding="utf-8") as f:
             tweets = json.load(f)
 
-            self.stdout.write(f"Found {len(tweets)} tweets.")
+        self.stdout.write(f"Found {len(tweets)} tweets.")
 
-            sorted_tweets = sorted(
-                tweets,
-                key=lambda entry: self.get_created_at_datetime(
-                    entry["tweet"]["created_at"]
-                ),
-            )
+        # Sort tweets by creation date for consistency
+        sorted_tweets = sorted(
+            tweets,
+            key=lambda entry: self.get_created_at_datetime(
+                entry["tweet"]["created_at"]
+            ),
+        )
 
-            for tweet_entry in sorted_tweets:
-                tweet = tweet_entry["tweet"]
+        # Loop over sorted tweets
+        for tweet_entry in sorted_tweets:
+            tweet = tweet_entry["tweet"]
 
-                id = tweet["id"]
-                created_at = self.get_created_at_datetime(tweet["created_at"])
+            id = tweet["id"]
+            created_at = self.get_created_at_datetime(tweet["created_at"])
 
-                url = tweet["entities"]["urls"][0]["url"]
-                expanded_url = tweet["entities"]["urls"][0]["expanded_url"]
-                full_text = tweet["full_text"]
+            url = tweet["entities"]["urls"][0]["url"]
+            expanded_url = tweet["entities"]["urls"][0]["expanded_url"]
+            full_text = tweet["full_text"]
 
-                # TODO: Resolve short expanded_url to get cleaned_url
-                # resolved_url = self.resolve_expanded_url(expanded_url)
-                cleaned_text = full_text.replace(url, expanded_url)
+            # TODO: Resolve short expanded_url to get cleaned_url
+            # resolved_url = self.resolve_expanded_url(expanded_url)
+            cleaned_text = full_text.replace(url, expanded_url)
 
-                print(id, created_at)
-                # print(url, expanded_url)
-                print(cleaned_text)
-                print()
+            print(id, created_at)
+            # print(url, expanded_url)
+            print(cleaned_text)
+            print()
+
+            processed_tweets[id] = {"id": id}
+
+        # Write out processed tweets for persistent archive
+        with open(output_tweets, "w", encoding="utf-8") as f:
+            json.dump(processed_tweets, f, ensure_ascii=False, indent=2)
 
     def get_created_at_datetime(self, created_at):
         """Parse created_at timestamp to datetime object."""
