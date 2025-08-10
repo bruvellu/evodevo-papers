@@ -16,6 +16,7 @@ class Command(BaseCommand):
         # Define input/output files and open
         input_tweets = "tweets.js"
         output_tweets = "processed_tweets.json"
+        status_codes = {}
 
         if os.path.exists(output_tweets):
             with open(output_tweets, "r", encoding="utf-8") as f:
@@ -65,7 +66,7 @@ class Command(BaseCommand):
             )
 
             # Resolve short URL stored as expanded_url
-            if not tweet_tmp["resolved_url"]:
+            if not tweet_tmp["resolved_url"] or tweet_tmp["url_status_code"] == 404:
                 print(f"Resolving... {tweet_out['expanded_url']}")
                 response = self.resolve_url(tweet_out["expanded_url"])
                 tweet_out["resolved_url"] = response.url
@@ -75,9 +76,6 @@ class Command(BaseCommand):
                 tweet_out["resolved_url"] = tweet_tmp["resolved_url"]
                 tweet_out["url_status_code"] = tweet_tmp["url_status_code"]
                 tweet_out["url_response_ok"] = tweet_tmp["url_response_ok"]
-
-            # elif not:
-            # current_status = processed_tweets[tweet_out["id"]]["url_status_code"]
 
             # Replace the original URL with the resolved URL
             if tweet_out["resolved_url"]:
@@ -92,11 +90,21 @@ class Command(BaseCommand):
 
             processed_tweets[tweet_out["id"]] = tweet_out
 
+            if tweet_out["url_status_code"] in status_codes.keys():
+                status_codes[tweet_out["url_status_code"]] += 1
+            else:
+                status_codes[tweet_out["url_status_code"]] = 1
+
             # created_at = self.get_created_at_datetime(tweet["created_at"])
 
             # Write out processed tweets for persistent archive
             with open(output_tweets, "w", encoding="utf-8") as f:
                 json.dump(processed_tweets, f, ensure_ascii=False, indent=2)
+
+        print()
+        print("Status codes")
+        for k, v in status_codes.items():
+            print(f"{k}: {v}")
 
     def get_created_at_datetime(self, created_at):
         """Parse created_at timestamp to datetime object."""
