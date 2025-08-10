@@ -39,7 +39,7 @@ class Command(BaseCommand):
         )
 
         # Loop over sorted tweets
-        for entry in sorted_tweets:
+        for entry in sorted_tweets[:50]:
             # Tweet object with variables to parse and process
             tweet_in = entry["tweet"]
             tweet_out = {
@@ -49,8 +49,12 @@ class Command(BaseCommand):
                 "expanded_url": tweet_in["entities"]["urls"][0]["expanded_url"],
                 "original_text": tweet_in["full_text"],
                 "resolved_url": "",
+                "cleaned_url": "",
+                "url_response_ok": "",
+                "url_status_code": "",
                 "updated_text": "",
             }
+            tweet_tmp = processed_tweets[tweet_out["id"]]
 
             print()
             print(tweet_out["id"], tweet_out["created_at"])
@@ -61,12 +65,19 @@ class Command(BaseCommand):
             )
 
             # Resolve short URL stored as expanded_url
-            current_url = processed_tweets[tweet_out["id"]]["resolved_url"]]
-            if not current_url:
+            if not tweet_tmp["resolved_url"]:
                 print(f"Resolving... {tweet_out['expanded_url']}")
-                tweet_out["resolved_url"] = self.resolve_expanded_url(
-                    tweet_out["expanded_url"]
-                )
+                response = self.resolve_url(tweet_out["expanded_url"])
+                tweet_out["resolved_url"] = response.url
+                tweet_out["url_status_code"] = response.status_code
+                tweet_out["url_response_ok"] = response.ok
+            else:
+                tweet_out["resolved_url"] = tweet_tmp["resolved_url"]
+                tweet_out["url_status_code"] = tweet_tmp["url_status_code"]
+                tweet_out["url_response_ok"] = tweet_tmp["url_response_ok"]
+
+            # elif not:
+            # current_status = processed_tweets[tweet_out["id"]]["url_status_code"]
 
             # Replace the original URL with the resolved URL
             if tweet_out["resolved_url"]:
@@ -83,27 +94,20 @@ class Command(BaseCommand):
 
             # created_at = self.get_created_at_datetime(tweet["created_at"])
 
-        # Write out processed tweets for persistent archive
-        with open(output_tweets, "w", encoding="utf-8") as f:
-            json.dump(processed_tweets, f, ensure_ascii=False, indent=2)
+            # Write out processed tweets for persistent archive
+            with open(output_tweets, "w", encoding="utf-8") as f:
+                json.dump(processed_tweets, f, ensure_ascii=False, indent=2)
 
     def get_created_at_datetime(self, created_at):
         """Parse created_at timestamp to datetime object."""
         # Example: "Thu Nov 03 05:19:51 +0000 2022"
         return datetime.strptime(created_at, "%a %b %d %H:%M:%S %z %Y")
 
-    def resolve_expanded_url(self, expanded_url):
-        """Resolve ift.tt and dlvr.it URLs to their true address."""
-
-        if expanded_url.startswith("http://dlvr.it") or expanded_url.startswith(
-            "http://ift.tt"
-        ):
-            # Add delay not to overwhelm servers...
-            time.sleep(1)
-            response = requests.head(expanded_url, allow_redirects=True, timeout=10)
-            return response.url
-        else:
-            return expanded_url
+    def resolve_url(self, url):
+        """Resolve URLs to their true address and get status."""
+        # Add delay not to overwhelm servers...
+        time.sleep(1)
+        return requests.head(url, allow_redirects=True, timeout=10)
 
     def replace_string(self, text, old, new):
         """Replace string in text."""
