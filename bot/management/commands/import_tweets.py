@@ -39,7 +39,7 @@ class Command(BaseCommand):
         )
 
         # Loop over sorted tweets
-        for entry in sorted_tweets[:50]:
+        for entry in sorted_tweets:
             # Tweet object with variables to parse and process
             tweet_in = entry["tweet"]
             tweet_out = {
