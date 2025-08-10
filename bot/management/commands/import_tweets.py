@@ -38,26 +38,34 @@ class Command(BaseCommand):
         )
 
         # Loop over sorted tweets
-        for tweet_entry in sorted_tweets:
-            tweet = tweet_entry["tweet"]
+        for entry in sorted_tweets:
+            # Original variables to parse and process
+            tweet_in = entry["tweet"]
+            tweet_out = {
+                "id": tweet_in["id"],
+                "created_at": tweet_in["created_at"],
+                "original_url": tweet_in["entities"]["urls"][0]["url"],
+                "expanded_url": tweet_in["entities"]["urls"][0]["expanded_url"],
+                "original_text": tweet_in["full_text"],
+                "resolved_url": "",
+                "updated_text": "",
+            }
 
-            id = tweet["id"]
-            created_at = self.get_created_at_datetime(tweet["created_at"])
-
-            url = tweet["entities"]["urls"][0]["url"]
-            expanded_url = tweet["entities"]["urls"][0]["expanded_url"]
-            full_text = tweet["full_text"]
+            # if not processed_tweets[tweet_out["id"]]["resolved_url"]:
+            # print("Please resolve this URL")
 
             # TODO: Resolve short expanded_url to get cleaned_url
             # resolved_url = self.resolve_expanded_url(expanded_url)
-            cleaned_text = full_text.replace(url, expanded_url)
+            # cleaned_text = original_text.replace(original_url, expanded_url)
 
-            print(id, created_at)
-            # print(url, expanded_url)
-            print(cleaned_text)
+            print(tweet_out["id"], tweet_out["created_at"])
+            print(f"Old: {tweet_out["original_text"]}")
+            print(f"New: {tweet_out["updated_text"]}")
             print()
 
-            processed_tweets[id] = {"id": id}
+            processed_tweets[tweet_out["id"]] = tweet_out
+
+            # created_at = self.get_created_at_datetime(tweet["created_at"])
 
         # Write out processed tweets for persistent archive
         with open(output_tweets, "w", encoding="utf-8") as f:
@@ -78,8 +86,9 @@ class Command(BaseCommand):
         else:
             return expanded_url
 
-    def remove_hashtag(self):
+    def remove_hashtag(self, full_text):
         """Remove #evodevo hashtag from full_text."""
+        return full_text.replace(" #evodevo", "")
 
     def determine_source_feed_from_expanded_url(self):
         """Discover the source by the paper's URL."""
