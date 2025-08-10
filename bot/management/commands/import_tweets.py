@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from datetime import datetime
 
 import requests
@@ -39,7 +40,7 @@ class Command(BaseCommand):
 
         # Loop over sorted tweets
         for entry in sorted_tweets:
-            # Original variables to parse and process
+            # Tweet object with variables to parse and process
             tweet_in = entry["tweet"]
             tweet_out = {
                 "id": tweet_in["id"],
@@ -51,17 +52,32 @@ class Command(BaseCommand):
                 "updated_text": "",
             }
 
-            # if not processed_tweets[tweet_out["id"]]["resolved_url"]:
-            # print("Please resolve this URL")
-
-            # TODO: Resolve short expanded_url to get cleaned_url
-            # resolved_url = self.resolve_expanded_url(expanded_url)
-            # cleaned_text = original_text.replace(original_url, expanded_url)
-
+            print()
             print(tweet_out["id"], tweet_out["created_at"])
+
+            # Remove #evodevo hashtag from original text
+            tweet_out["updated_text"] = self.replace_string(
+                tweet_out["original_text"], " #evodevo", ""
+            )
+
+            # Resolve short URL stored as expanded_url
+            current_url = processed_tweets[tweet_out["id"]]["resolved_url"]]
+            if not current_url:
+                print(f"Resolving... {tweet_out['expanded_url']}")
+                tweet_out["resolved_url"] = self.resolve_expanded_url(
+                    tweet_out["expanded_url"]
+                )
+
+            # Replace the original URL with the resolved URL
+            if tweet_out["resolved_url"]:
+                tweet_out["updated_text"] = self.replace_string(
+                    tweet_out["updated_text"],
+                    tweet_out["original_url"],
+                    tweet_out["resolved_url"],
+                )
+
             print(f"Old: {tweet_out["original_text"]}")
             print(f"New: {tweet_out["updated_text"]}")
-            print()
 
             processed_tweets[tweet_out["id"]] = tweet_out
 
@@ -78,17 +94,20 @@ class Command(BaseCommand):
 
     def resolve_expanded_url(self, expanded_url):
         """Resolve ift.tt and dlvr.it URLs to their true address."""
+
         if expanded_url.startswith("http://dlvr.it") or expanded_url.startswith(
             "http://ift.tt"
         ):
+            # Add delay not to overwhelm servers...
+            time.sleep(1)
             response = requests.head(expanded_url, allow_redirects=True, timeout=10)
             return response.url
         else:
             return expanded_url
 
-    def remove_hashtag(self, full_text):
-        """Remove #evodevo hashtag from full_text."""
-        return full_text.replace(" #evodevo", "")
+    def replace_string(self, text, old, new):
+        """Replace string in text."""
+        return text.replace(old, new)
 
     def determine_source_feed_from_expanded_url(self):
         """Discover the source by the paper's URL."""
