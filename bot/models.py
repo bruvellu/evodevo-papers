@@ -134,6 +134,9 @@ class Status(models.Model):
             posted = self.post_to_mastodon()
         elif self.client.platform == "Bluesky":
             posted = self.post_to_bluesky()
+        else:
+            print(f"Unsupported platform: {self.client.platform}")
+            return False
 
         if posted:
             return True
