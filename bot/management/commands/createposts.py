@@ -1,8 +1,8 @@
+from urllib.parse import urlparse, urlunparse
+
 from django.core.management.base import BaseCommand
 from django.db.models import Q
 from feeds.models import Post as Entry
-from urllib.parse import urlparse, urlunparse
-
 
 from bot.models import Post
 
@@ -26,7 +26,9 @@ class Command(BaseCommand):
 
         for entry in filtered_entries:
             if Post.objects.filter(title=entry.title).exists():
-                self.stdout.write(self.style.WARNING(f"A post with the same title already exists:"))
+                self.stdout.write(
+                    self.style.WARNING(f"A post with the same title already exists:")
+                )
                 self.stdout.write(f"{entry.title}")
                 continue
             post = self.create_post_from_entry(entry)
@@ -65,7 +67,10 @@ class Command(BaseCommand):
         Returns the created Post object.
         """
         post = Post(
-            entry=entry, title=entry.title, link=self.clean_url(entry.link), created=entry.created
+            entry=entry,
+            title=entry.title,
+            link=self.clean_url(entry.link),
+            created=entry.created,
         )
         post.save()
         return post
@@ -74,5 +79,5 @@ class Command(BaseCommand):
         """Remove query parameters and fragments from a URL, robustly."""
         # Create tests for URL parsing errors
         parsed = urlparse(url)
-        clean_parsed = parsed._replace(params='', query='', fragment='')
+        clean_parsed = parsed._replace(params="", query="", fragment="")
         return urlunparse(clean_parsed)

@@ -80,6 +80,7 @@ class Post(models.Model):
 
 
 class Status(models.Model):
+    # TODO: Remove blank and null for post
     post = models.ForeignKey(
         Post, blank=True, null=True, on_delete=models.CASCADE, related_name="statuses"
     )
