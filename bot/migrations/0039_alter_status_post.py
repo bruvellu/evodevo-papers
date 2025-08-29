@@ -5,15 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0038_auto_20250829_2308'),
+        ("bot", "0038_auto_20250829_2308"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='status',
-            name='post',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='statuses', to='bot.post'),
+            model_name="status",
+            name="post",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="statuses",
+                to="bot.post",
+            ),
         ),
     ]
