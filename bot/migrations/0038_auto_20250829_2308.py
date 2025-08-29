@@ -12,9 +12,8 @@ def update_post_created_timestamp(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0037_alter_post_created'),
+        ("bot", "0037_alter_post_created"),
     ]
 
     operations = [

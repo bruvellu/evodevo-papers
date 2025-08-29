@@ -5,15 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0036_alter_feed_is_active'),
+        ("bot", "0036_alter_feed_is_active"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='created',
-            field=models.DateTimeField(blank=True, default=django.utils.timezone.now, null=True),
+            model_name="post",
+            name="created",
+            field=models.DateTimeField(
+                blank=True, default=django.utils.timezone.now, null=True
+            ),
         ),
     ]
