@@ -31,6 +31,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ["entry__source__feed__name", "is_new", "created"]
     search_fields = ["title"]
     readonly_fields = ["created", "modified"]
+    ordering = ["-created"]
 
 
 class StatusAdmin(admin.ModelAdmin):
