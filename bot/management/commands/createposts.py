@@ -58,6 +58,8 @@ class Command(BaseCommand):
         Creates and saves a new Post object from a given Entry instance.
         Returns the created Post object.
         """
-        post = Post(entry=entry, title=entry.title, link=entry.link)
+        post = Post(
+            entry=entry, title=entry.title, link=entry.link, created=entry.created
+        )
         post.save()
         return post
