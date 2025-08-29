@@ -81,7 +81,7 @@ class Post(models.Model):
 
 class Status(models.Model):
     post = models.ForeignKey(
-        Post, blank=True, null=True, on_delete=models.SET_NULL, related_name="statuses"
+        Post, blank=True, null=True, on_delete=models.CASCADE, related_name="statuses"
     )
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.TextField(blank=True)
@@ -93,7 +93,7 @@ class Status(models.Model):
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'[{self.id}] [{self.client}] "{self.post.title[:50]}..."'
+        return f'[{self.id}] [{self.client}] "{self.text[:50]}..."'
 
     def build_text(self, facets=False):
         # Faceted text object required for Bluesky
