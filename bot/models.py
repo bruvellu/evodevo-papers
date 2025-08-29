@@ -53,7 +53,7 @@ class Post(models.Model):
     )
     title = models.TextField(blank=True)
     link = models.URLField(blank=True)
-    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created = models.DateTimeField(default=timezone.now, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     is_new = models.BooleanField(default=True)
 
