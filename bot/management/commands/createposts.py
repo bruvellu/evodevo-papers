@@ -25,6 +25,10 @@ class Command(BaseCommand):
         self.stdout.write(f"{filtered_entries.count()} filtered new entries")
 
         for entry in filtered_entries:
+            if Post.objects.filter(title=entry.title).exists():
+                self.stdout.write(self.style.WARNING(f"A post with the same title already exists:"))
+                self.stdout.write(f"{entry.title}")
+                continue
             post = self.create_post_from_entry(entry)
             post.get_or_create_statuses()
             self.stdout.write(self.style.SUCCESS(str(post)))
