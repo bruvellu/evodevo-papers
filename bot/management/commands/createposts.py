@@ -25,11 +25,7 @@ class Command(BaseCommand):
         self.stdout.write(f"{filtered_entries.count()} filtered new entries")
 
         for entry in filtered_entries:
-            if Post.objects.filter(title=entry.title).exists():
-                self.stdout.write(
-                    self.style.WARNING(f"A post with the same title already exists:")
-                )
-                self.stdout.write(f"{entry.title}")
+            if self.is_duplicate(entry):
                 continue
             post = self.create_post_from_entry(entry)
             post.get_or_create_statuses()
@@ -81,3 +77,23 @@ class Command(BaseCommand):
         parsed = urlparse(url)
         clean_parsed = parsed._replace(params="", query="", fragment="")
         return urlunparse(clean_parsed)
+
+    def is_duplicate(self, entry):
+        """Check if a post already exists for an entry."""
+        # TODO: Create test for duplicate detection
+        posts_with_identical_title = Post.objects.filter(title=entry.title)
+        for post in posts_with_identical_title:
+            self.stdout.write(f"{entry.title}")
+            self.stdout.write(f"Source entry: {entry.source}")
+            self.stdout.write(f"Source post: {post.entry.source}")
+            if not entry.source == post.entry.source:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Same title, different source. Potential duplicate!"
+                    )
+                )
+                return True
+            self.stdout.write(
+                self.style.WARNING(f"Same title, same source. Likely not a duplicate.")
+            )
+        return False
