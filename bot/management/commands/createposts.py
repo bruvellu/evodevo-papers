@@ -2,6 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 from django.core.management.base import BaseCommand
 from django.db.models import Q
+from django.utils.html import strip_tags
 from feeds.models import Post as Entry
 
 from bot.models import Post
@@ -64,7 +65,7 @@ class Command(BaseCommand):
         """
         post = Post(
             entry=entry,
-            title=entry.title,
+            title=self.clean_title(entry.title),
             link=self.clean_url(entry.link),
             created=entry.created,
         )
@@ -77,6 +78,10 @@ class Command(BaseCommand):
         parsed = urlparse(url)
         clean_parsed = parsed._replace(params="", query="", fragment="")
         return urlunparse(clean_parsed)
+
+    def clean_title(self, title):
+        """Remove HTML tags from title."""
+        return strip_tags(title)
 
     def is_duplicate(self, entry):
         """Check if a post already exists for an entry."""
