@@ -160,7 +160,7 @@ class Status(models.Model):
         try:
             self.login_mastodon()
             response = self.mastodon.status_post(
-                self.build_text(), visibility="unlisted", language="en"
+                self.build_text(), visibility="public", language="en"
             )
             self.response = json.loads(response.to_json())["_mastopy_data"]
             self.url = response.url
