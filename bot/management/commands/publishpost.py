@@ -17,7 +17,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write("No new posts to publish.")
 
-            # Priority 2: Publish a random unpublished post
+            # Priority 2: Publish a random post with unpublished statuses
             old_post = (
                 Post.objects.filter(
                     statuses__is_published=False, statuses__client__is_active=True
@@ -26,9 +26,14 @@ class Command(BaseCommand):
                 .order_by("?")
                 .first()
             )
-            self.publish_post_statuses(old_post)
 
-            # TODO: Priority 3: Boost a random published post?
+            if old_post:
+                self.publish_post_statuses(old_post)
+
+            else:
+                self.stdout.write("No posts with unpublished statutes.")
+
+                # TODO: Priority 3: Boost a random published post?
 
     def publish_post_statuses(self, post):
         for status in post.statuses.all():
