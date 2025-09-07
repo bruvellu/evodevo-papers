@@ -4,7 +4,7 @@
 {% block main %}
 <section>
   <h1>Latest posts <a href="/rss/" title="EvoDevo Papers RSS feed">{% include 'icon_feed.html' %}</a></h1>
-  {% for post in posts %}
+  {% for post in latest %}
   <p class="item">
     <strong><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></strong>
     <span><strong>Created:</strong> {{ post.created }}</span>
@@ -15,6 +15,16 @@
     <a href="{% url 'feeds' %}"><button>Journal feeds</button></a>
     <a href="{% url 'about' %}"><button>About the site</button></a>
   </div>
+</section>
+
+<section>
+  <h2>Random posts</h2>
+  {% for post in random %}
+  <p class="item">
+    <strong><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></strong>
+    <span><strong>Created:</strong> {{ post.created }}</span>
+  </p>
+  {% endfor %}
 </section>
 
 <section>

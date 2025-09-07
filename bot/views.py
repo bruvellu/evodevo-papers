@@ -5,10 +5,12 @@ from .models import Feed, Post
 
 def home(request):
     feeds = Feed.objects.order_by("-source__last_change")
-    posts = Post.objects.order_by("-created")[:5]
+    latest = Post.objects.order_by("-created")[:5]
+    random = Post.objects.order_by("?")[:5]
     context = {
         "feeds": feeds,
-        "posts": posts,
+        "latest": latest,
+        "random": random,
     }
     return render(request, "home.html", context)
 
