@@ -7,8 +7,8 @@ class Command(BaseCommand):
     help = "Publish social media statuses for posts."
 
     def handle(self, *args, **options):
-        # Priority 1: Publish statuses for new posts, if existing
-        new_post = Post.objects.filter(is_new=True).order_by("created").first()
+        # Priority 1: Publish statuses for a random new post
+        new_post = Post.objects.filter(is_new=True).order_by("?").first()
 
         if new_post:
             self.stdout.write(f"New post found: {new_post}")
