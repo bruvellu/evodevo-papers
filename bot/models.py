@@ -69,10 +69,16 @@ class Post(models.Model):
             status.save()
 
     def update_is_new(self):
-        publist = self.statuses.values_list("is_published", flat=True)
-        if True in publist:
+        if self.has_published_statuses():
             self.is_new = False
             self.save()
+
+    def has_published_statuses(self):
+        published_statuses = self.statuses.values_list("is_published", flat=True)
+        if True in published_statuses:
+            return True
+        else:
+            return False
 
     @property
     def display_text(self):
