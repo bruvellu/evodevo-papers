@@ -67,6 +67,7 @@ class Command(BaseCommand):
             entry=entry,
             title=self.clean_title(entry.title),
             link=self.clean_url(entry.link),
+            feed=entry.source.feed,
             created=entry.created,
         )
         post.save()

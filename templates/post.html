@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load custom_tags %}
 {% block title %}{{ post.title }}{% endblock %}
-{% block description %}Paper published by {{ post.entry.source.feed.name }} featured on EvoDevo Papers.{% endblock %}
+{% block description %}Paper published by {{ post.feed.name }} featured on EvoDevo Papers.{% endblock %}
 {% block main %}
 <section>
   <h1 class="post-title">{{ post.title }}</h1>
   <p><strong>Created:</strong> {{ post.created }}</p>
   <p><strong>Link:</strong> {{ post.link|urlize }}</p>
-  <p><strong>Source:</strong> <a href="{{ post.entry.source.feed.get_absolute_url }}">{{ post.entry.source.feed.name }}</a></p>
+  <p><strong>Source:</strong> <a href="{{ post.feed.get_absolute_url }}">{{ post.entry.source.feed.name }}</a></p>
   <p><strong>Social:</strong> {% if post.has_published_statuses %}{% render_statuses_links post %}{% else %}No statuses published yet.{% endif %}
 </section>
 {% endblock %}

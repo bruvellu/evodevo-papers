@@ -47,7 +47,7 @@ class Command(BaseCommand):
             post_pks.append(post.pk)
             entry_pks.append(post.entry.pk)
             source_pks.append(post.entry.source.pk)
-            feed_pks.append(post.entry.source.feed.pk)
+            feed_pks.append(post.feed.pk)
             for status in post.statuses.all():
                 status_pks.append(status.pk)
                 client_pks.append(status.client.pk)
