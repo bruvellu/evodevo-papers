@@ -30,7 +30,7 @@ class Client(models.Model):
 class Feed(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    created = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(default=timezone.now, null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=False)
     source = models.OneToOneField(
