@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0040_alter_feed_created'),
+        ("bot", "0040_alter_feed_created"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='feed',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='bot.feed'),
+            model_name="post",
+            name="feed",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="bot.feed",
+            ),
         ),
     ]

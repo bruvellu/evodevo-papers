@@ -12,9 +12,8 @@ def copy_feed_info(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bot', '0041_post_feed'),
+        ("bot", "0041_post_feed"),
     ]
 
     operations = [
