@@ -45,7 +45,6 @@ class Feed(models.Model):
 
 
 class Post(models.Model):
-    # TODO: Add a foreign key to Feed
     # TODO: Add other relevant fields from Entry
     # TODO: Post information should be independent of Entry
     entry = models.OneToOneField(
