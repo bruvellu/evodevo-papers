@@ -6,6 +6,8 @@ from datetime import datetime
 import requests
 from django.core.management.base import BaseCommand
 
+# TODO: Recover full title from shortened text with ellipsis
+# TODO: Check entries with 403 status code
 
 class Command(BaseCommand):
     help = "Import EvoDevo Papers legacy tweets."
@@ -50,20 +52,15 @@ class Command(BaseCommand):
                 "expanded_url": tweet_in["entities"]["urls"][0]["expanded_url"],
                 "original_text": tweet_in["full_text"],
                 "resolved_url": "",
-                "cleaned_url": "",
                 "url_response_ok": "",
                 "url_status_code": "",
-                "updated_text": "",
+                "final_link": "",
+                "final_title": "",
             }
             tweet_tmp = processed_tweets[tweet_out["id"]]
 
             print()
             print(tweet_out["id"], tweet_out["created_at"])
-
-            # Remove #evodevo hashtag from original text
-            tweet_out["updated_text"] = self.replace_string(
-                tweet_out["original_text"], " #evodevo", ""
-            )
 
             # Resolve short URL stored as expanded_url
             if not tweet_tmp["resolved_url"] or tweet_tmp["url_status_code"] == 404:
@@ -77,16 +74,17 @@ class Command(BaseCommand):
                 tweet_out["url_status_code"] = tweet_tmp["url_status_code"]
                 tweet_out["url_response_ok"] = tweet_tmp["url_response_ok"]
 
+            # Remove #evodevo hashtag from original text
+            text_no_hashtag = self.replace_string(tweet_out["original_text"], " #evodevo", "")
+            # Remove original URL from text without hashtag
+            tweet_out["final_title"] = self.replace_string(text_no_hashtag, f' {tweet_out["original_url"]}', "")
+
             # Replace the original URL with the resolved URL
             if tweet_out["resolved_url"]:
-                tweet_out["updated_text"] = self.replace_string(
-                    tweet_out["updated_text"],
-                    tweet_out["original_url"],
-                    tweet_out["resolved_url"],
-                )
+                tweet_out["final_link"] = tweet_out["resolved_url"]
 
             print(f"Old: {tweet_out["original_text"]}")
-            print(f"New: {tweet_out["updated_text"]}")
+            print(f"New: {tweet_out["final_title"]} {tweet_out["final_link"]} #EvoDevo")
 
             processed_tweets[tweet_out["id"]] = tweet_out
 
@@ -113,7 +111,7 @@ class Command(BaseCommand):
 
     def resolve_url(self, url):
         """Resolve URLs to their true address and get status."""
-        # Add delay not to overwhelm servers...
+        # Add delay to not overwhelm servers...
         time.sleep(1)
         return requests.head(url, allow_redirects=True, timeout=10)
 
