@@ -23,14 +23,16 @@ class Command(BaseCommand):
         filtered_entries = self.filter_entries(new_entries)
 
         self.stdout.write(f"{new_entries.count()} total new entries")
-        self.stdout.write(f"{filtered_entries.count()} filtered new entries")
+        self.stdout.write(
+            f"{filtered_entries.count()} remaining new entries (after filtering)"
+        )
 
         for entry in filtered_entries:
             if self.is_duplicate(entry):
                 continue
             post = self.create_post_from_entry(entry)
             post.get_or_create_statuses()
-            self.stdout.write(self.style.SUCCESS(str(post)))
+            self.stdout.write(f"New post created: {post}")
 
     def get_new_entries(self):
         """
@@ -75,7 +77,7 @@ class Command(BaseCommand):
 
     def clean_url(self, url):
         """Remove query parameters and fragments from a URL, robustly."""
-        # Create tests for URL parsing errors
+        # TODO: Create tests for URL parsing errors
         parsed = urlparse(url)
         clean_parsed = parsed._replace(params="", query="", fragment="")
         return urlunparse(clean_parsed)
@@ -89,17 +91,18 @@ class Command(BaseCommand):
         # TODO: Create test for duplicate detection
         posts_with_identical_title = Post.objects.filter(title=entry.title)
         for post in posts_with_identical_title:
-            self.stdout.write(f"{entry.title}")
-            self.stdout.write(f"Source entry: {entry.source}")
-            self.stdout.write(f"Source post: {post.entry.source}")
+            self.stdout.write(f"\n{entry.title}")
+            self.stdout.write(
+                f"Sources: entry='{entry.source}', post='{post.entry.source}'"
+            )
             if not entry.source == post.entry.source:
                 self.stdout.write(
                     self.style.WARNING(
-                        f"Same title, different source. Potential duplicate!"
+                        f"Different sources. Potential duplicate! Skipping..."
                     )
                 )
                 return True
             self.stdout.write(
-                self.style.WARNING(f"Same title, same source. Likely not a duplicate.")
+                self.style.WARNING(f"Same title and source. Likely not a duplicate...")
             )
         return False

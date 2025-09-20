@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
     def publish_post_statuses(self, post):
         for status in post.statuses.all():
-            self.stdout.write(f"Found status: {status}")
+            self.stdout.write(f"\nFound status: {status}")
             published = status.publish()
             if published:
                 self.stdout.write(
