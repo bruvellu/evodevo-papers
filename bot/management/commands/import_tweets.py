@@ -6,7 +6,7 @@ from datetime import datetime
 import requests
 from django.core.management.base import BaseCommand
 
-from bot.models import Feed, Post
+from bot.models import Client, Feed, Post, Status
 
 
 class Command(BaseCommand):
@@ -36,7 +36,6 @@ class Command(BaseCommand):
 
             # Define values for new post object
             post = {
-                "entry": None,
                 "feed": self.discover_feed_from_link(tweet["final_link"]),
                 "title": tweet["final_title"],
                 "link": tweet["final_link"],
@@ -46,10 +45,10 @@ class Command(BaseCommand):
 
             # Skip duplicate posts
             if self.has_duplicate(post, posts):
-                print()
-                print("DUPLICATE", tweet["id"], tweet["created_at"])
-                print(tweet["final_title"])
-                print(tweet["final_link"])
+                # print()
+                # print("DUPLICATE", tweet["id"], tweet["created_at"])
+                # print(tweet["final_title"])
+                # print(tweet["final_link"])
                 duplicates += 1
                 continue
 
@@ -60,6 +59,31 @@ class Command(BaseCommand):
         print()
         print(f"Posts: {len(posts.keys())}")
         print(f"Duplicates: {duplicates}")
+
+        # Get Twitter Client
+        twitter = Client.objects.get(account="@evodevo_papers@twitter.com")
+
+        # Loop over posts
+        for tweet_id, post in posts.items():
+            # print(self.generate_twitter_status_url(tweet_id), post)
+            # Create new post
+            new_post = Post(**post)
+            new_post.save()
+            print(f"New post created: {new_post}")
+            # Generate statuses for active clients
+            new_post.get_or_create_statuses()
+            # Generate statuses for Twitter client
+            twitter_status = Status(
+                post=new_post,
+                client=twitter,
+                url=self.generate_twitter_status_url(tweet_id),
+                published=new_post.created,
+                is_published=True,
+            )
+            twitter_status.save()
+            twitter_status.build_text()
+            twitter_status.save()
+            print(f"Twitter status created: {twitter_status}")
 
     def get_created_at_datetime(self, created_at):
         """Parse created_at timestamp to datetime object."""
@@ -83,15 +107,13 @@ class Command(BaseCommand):
         elif link.startswith("https://www.frontiersin.org"):
             return Feed.objects.get(name="Frontiers in Ecology and Evolution")
 
-    def generate_twitter_status_url(self):
+    def generate_twitter_status_url(self, id):
         """Build Twitter status URL from tweet ID."""
+        return f"https://twitter.com/evodevo_papers/status/{id}"
 
     def has_duplicate(self, entry, posts):
         """Check for duplicated entries before importing."""
         for key, value in posts.items():
-            if (
-                entry["title"] == value["title"]
-                and entry["link"] == value["link"]
-            ):
+            if entry["title"] == value["title"] and entry["link"] == value["link"]:
                 return True
         return False
