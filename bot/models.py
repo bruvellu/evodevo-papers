@@ -58,7 +58,7 @@ class Post(models.Model):
     is_new = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'[{self.id}] [{self.feed}] "{self.title}..."'
+        return f'[{self.id}] [{self.feed}] "{self.title}"'
 
     def get_absolute_url(self):
         return reverse("post", args=(self.id,))
@@ -112,7 +112,7 @@ class Status(models.Model):
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'[{self.id}] [{self.client}] "{self.text}..."'
+        return f'[{self.id}] [{self.client}] "{self.text}"'
 
     def build_text(self, facets=False):
         # Faceted text object required for Bluesky
