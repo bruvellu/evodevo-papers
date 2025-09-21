@@ -28,7 +28,7 @@ def feeds(request):
 
 def feed(request, id):
     feed = Feed.objects.get(id=id)
-    entries = feed.source.posts.order_by("-created")
+    entries = feed.post_set.order_by("-created")
     context = {
         "feed": feed,
         "entries": entries,

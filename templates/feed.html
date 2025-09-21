@@ -3,9 +3,12 @@
 {% block description %}{{ feed.description }}{% endblock %}
 {% block main %}
 <section>
-  <h1>{{ feed.name }} <a href="{{ feed.source.feed_url }}" title="RSS feed for {{ feed.name }}">{% include 'icon_feed.html' %}</a></h1>
+  <h1>{{ feed.name }}{% if feed.source %}<a href="{{ feed.source.feed_url }}" title="RSS feed for {{ feed.name }}">{% include 'icon_feed.html' %}</a>{% endif %}</h1>
   <p class="description">{{ feed.description }}</p>
-  <p class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</p>
+  <p class="timestamp">
+    <strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}
+  </p>
+  {% if entries %}
   <h2>Entries</h2>
   {% for entry in entries %}
   <p class="item">
@@ -13,5 +16,6 @@
     <span class="timestamp"><strong>Created:</strong> {{ entry.created }}</span>
   </p>
   {% endfor %}
+  {% endif %}
 </section>
 {% endblock %}
