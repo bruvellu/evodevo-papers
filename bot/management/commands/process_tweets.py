@@ -77,6 +77,9 @@ class Command(BaseCommand):
             tweet_out["final_title"] = self.replace_string(
                 text_no_hashtag, f' {tweet_out["original_url"]}', ""
             )
+            # Remove period at the end of titles
+            if tweet_out["final_title"].endswith("."):
+                tweet_out["final_title"] = tweet_out["final_title"].removesuffix(".")
 
             # Replace the original URL with the resolved URL
             if tweet_out["resolved_url"]:
