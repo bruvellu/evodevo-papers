@@ -10,6 +10,8 @@ from feeds.models import Post as Entry
 from feeds.models import Source
 from mastodon import Mastodon
 
+from urllib.parse import urlparse, urlunparse
+
 
 class Client(models.Model):
     platform = models.CharField(blank=True, max_length=50)
@@ -79,9 +81,21 @@ class Post(models.Model):
         else:
             return False
 
+    def clean_url(self, url):
+        """Remove query parameters and fragments from a URL, robustly."""
+        # TODO: Create tests for URL parsing errors
+        parsed = urlparse(url)
+        clean_parsed = parsed._replace(params="", query="", fragment="")
+        return urlunparse(clean_parsed)
+
     @property
     def display_text(self):
         return f"{self.title} {self.link}"
+
+    def save(self, *args, **kwargs):
+        if self.is_new:
+            self.link = self.clean_url(self.link)
+        super().save(*args, **kwargs)
 
 
 class Status(models.Model):

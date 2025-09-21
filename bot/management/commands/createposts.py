@@ -68,19 +68,12 @@ class Command(BaseCommand):
         post = Post(
             entry=entry,
             title=self.clean_title(entry.title),
-            link=self.clean_url(entry.link),
+            link=entry.link,
             feed=entry.source.feed,
             created=entry.created,
         )
         post.save()
         return post
-
-    def clean_url(self, url):
-        """Remove query parameters and fragments from a URL, robustly."""
-        # TODO: Create tests for URL parsing errors
-        parsed = urlparse(url)
-        clean_parsed = parsed._replace(params="", query="", fragment="")
-        return urlunparse(clean_parsed)
 
     def clean_title(self, title):
         """Remove HTML tags from title."""
