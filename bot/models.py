@@ -1,5 +1,6 @@
 import json
 import time
+from urllib.parse import urlparse, urlunparse
 
 from atproto import Client as ATClient
 from atproto import client_utils
@@ -9,8 +10,6 @@ from django.utils import timezone
 from feeds.models import Post as Entry
 from feeds.models import Source
 from mastodon import Mastodon
-
-from urllib.parse import urlparse, urlunparse
 
 
 class Client(models.Model):
