@@ -10,11 +10,16 @@ def render_statuses_links(post):
     html = []
     statuses = post.statuses.filter(is_published=True).select_related("client")
     for status in statuses:
-        icon_template = f"icon_{status.client.platform.lower()}.html"
+        platform = status.client.platform.lower()
+        icon_template = f"icon_{platform}.html"
         icon_html = render_to_string(icon_template)
+        if platform == "twitter":
+            link_template = '<a href="{}" onclick="event.preventDefault(); return false;" title="Post on {} (no longer active)">{}</a>'
+        else:
+            link_template = '<a href="{}" title="Post on {}">{}</a>'
         html.append(
             format_html(
-                '<a href="{}" title="Post on {}">{}</a>',
+                link_template,
                 status.url,
                 status.client.platform,
                 icon_html,
