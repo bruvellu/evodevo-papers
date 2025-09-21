@@ -17,6 +17,7 @@ class Command(BaseCommand):
         input_tweets = "tweets.json"
         output_tweets = "processed_tweets.json"
         status_codes = {}
+        url_domains = {}
 
         # Import already processed tweets
         if os.path.exists(output_tweets):
@@ -94,6 +95,12 @@ class Command(BaseCommand):
             else:
                 status_codes[tweet_out["url_status_code"]] = 1
 
+            url_domain = tweet_out["final_link"].split("/")[2]
+            if url_domain in url_domains.keys():
+                url_domains[url_domain] += 1
+            else:
+                url_domains[url_domain] = 1
+
             # Check shortened titles with ellipsis
             # if "…" in tweet_out["original_text"]:
             # print()
@@ -113,6 +120,12 @@ class Command(BaseCommand):
         print()
         print("Status codes")
         for k, v in status_codes.items():
+            print(f"{k}: {v}")
+
+        # Summarize URL domains
+        print()
+        print("URL domains")
+        for k, v in url_domains.items():
             print(f"{k}: {v}")
 
     def get_created_at_datetime(self, created_at):
