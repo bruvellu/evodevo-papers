@@ -4,16 +4,17 @@
 {% block main %}
 <section>
   <h1>{{ feed.name }}{% if feed.source %} <a href="{{ feed.source.feed_url }}" title="RSS feed for {{ feed.name }}">{% include 'icon_feed.html' %}</a>{% endif %}</h1>
-  <p class="description">{{ feed.description }}</p>
-  <p class="timestamp">
+  <p>{{ feed.description }}</p>
+  <p>
     <strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}
   </p>
+  <p><strong>Total:</strong> {{ feed.post_set.count }} papers</p>
   {% if entries %}
   <h2>Entries</h2>
   {% for entry in entries %}
   <p class="item">
     <strong><a href="{{ entry.link }}">{{ entry.title|safe }}</a></strong>
-    <span class="timestamp"><strong>Created:</strong> {{ entry.created }}</span>
+    <span><strong>Created:</strong> {{ entry.created }}</span>
   </p>
   {% endfor %}
   {% endif %}

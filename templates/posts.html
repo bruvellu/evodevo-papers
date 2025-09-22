@@ -5,6 +5,7 @@
 {% block main %}
 <section>
   <h1>Posts</h1>
+  <p><strong>Total:</strong> {{ posts.count }} papers</p>
   {% for post in posts %}
   <div class="notice">
     <p>{{ post.display_text|urlize }}</p>
