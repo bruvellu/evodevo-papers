@@ -8,7 +8,7 @@
   <p class="item">
     <strong><a href="{{ feed.get_absolute_url }}">{{ feed.name }}</a></strong>
     <span class="description">{{ feed.description }}</span>
-    <span class="timestamp"><strong>Updated:</strong> {{ feed.source.last_change }}</span>
+    <span class="timestamp"><strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}</span>
   </p>
   {% endfor %}
 </section>
