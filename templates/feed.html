@@ -5,10 +5,10 @@
 <section>
   <h1>{{ feed.name }}{% if feed.source %} <a href="{{ feed.source.feed_url }}" title="RSS feed for {{ feed.name }}">{% include 'icon_feed.html' %}</a>{% endif %}</h1>
   <p>{{ feed.description }}</p>
-  <p>
-    <strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}
+  <p class="item">
+    <span><strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}</span>
+    <span><strong>Total:</strong> {{ feed.post_set.count }} papers</span>
   </p>
-  <p><strong>Total:</strong> {{ feed.post_set.count }} papers</p>
   {% if entries %}
   <h2>Entries</h2>
   {% for entry in entries %}

@@ -7,8 +7,9 @@
   {% for feed in feeds %}
   <p class="item">
     <strong><a href="{{ feed.get_absolute_url }}">{{ feed.name }}</a></strong>
-    <span class="description">{{ feed.description }}</span>
-    <span class="timestamp"><strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}</span>
+    <span>{{ feed.description }}</span>
+    <span><strong>Updated:</strong> {% if feed.source %}{{ feed.source.last_change }}{% else %}Not active{% endif %}</span>
+    <span><strong>Total:</strong> {{ feed.post_set.count }} papers</span>
   </p>
   {% endfor %}
 </section>
