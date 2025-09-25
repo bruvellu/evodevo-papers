@@ -24,11 +24,11 @@ class PostAdmin(admin.ModelAdmin):
         "id",
         "title",
         "link",
-        "entry__source__feed__name",
+        "feed__name",
         "created",
         "is_new",
     ]
-    list_filter = ["entry__source__feed__name", "is_new", "created"]
+    list_filter = ["feed__name", "is_new", "created"]
     search_fields = ["title"]
     readonly_fields = ["created", "modified"]
     ordering = ["-created"]
