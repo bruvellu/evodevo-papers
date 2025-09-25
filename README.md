@@ -2,8 +2,7 @@
 
 A literature bot that shares research papers in the field of evolutionary developmental biology (or evo-devo).
 
-- **Website:** [evodevo.brunovellutini.com](https://evodevo.brunovellutini.com)
-- **RSS Feed:** [evodevo.brunovellutini.com](https://evodevo.brunovellutini.com/rss)
+- **Website:** [evodevo.brunovellutini.com](https://evodevo.brunovellutini.com) ([RSS Feed](https://evodevo.brunovellutini.com/rss))
 - **Mastodon:** [@evodevo_papers@biologists.social](https://biologists.social/@evodevo_papers)
 - **Bluesky:** [@evodevo-papers.bsky.social](https://bsky.app/profile/evodevo-papers.bsky.social)
 
