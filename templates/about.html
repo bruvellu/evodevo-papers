@@ -4,8 +4,22 @@
 {% block main %}
 <section>
   <h1>About</h1>
-  <p><strong>EvoDevo Papers</strong> was inspired by the pioneering <a href="https://twitter.com/fly_papers">@fly_papers</a> (RIP) and <a href="https://twitter.com/phy_papers">@phy_papers</a>. I created the initial version based on the <a href="https://caseybergman.wordpress.com/2014/02/24/keeping-up-with-the-scientific-literature-using-twitterbots-the-flypapers-experiment/">fly_papers post</a> and the <a href="https://github.com/roblanf/phypapers">phy_papers documentation</a>, using automation services like <em>dlvrit</em>, <em>IFTTT</em>, and <em>Zapier</em>. It operated as a Twitter bot from 2015 to 2023, but after the takeover and subsequent API changes, it could no longer post there.</p>
-  <p>Meanwhile, <strong>EvoDevo Papers</strong> has been posting on Mastodon since 2022. The first version was based on <a href="https://gitlab.com/chaica/feed2toot/">feed2toot</a>. However, due to recurrent issues with this setup, I rebuilt the bot from scratch to enhance its robustness and flexibility. The new version, which has been running smoothly since January 2024, is powered by:</p>
+  <p>
+    <strong>EvoDevo Papers</strong> is a literature bot for evolutionary developmental biology.
+    It keeps track of newly-published scientific articles in the field and shares them on various social media accounts with a slight hint of randomness, providing a great way to follow the latest publications or discover new works on EvoDevo.
+    All the content is stored in this sleek website where one can explore <a href="/feeds/">our sources</a> or <a href="/posts/">the archive</a>.
+  </p>
+  <h2>History</h2>
+  <p>
+    <strong>EvoDevo Papers</strong> was inspired by the pioneering literature bots known as <a href="https://twitter.com/fly_papers">@fly_papers</a> (RIP) and <a href="https://twitter.com/phy_papers">@phy_papers</a>.
+    Based on <a href="https://caseybergman.wordpress.com/2014/02/24/keeping-up-with-the-scientific-literature-using-twitterbots-the-flypapers-experiment/">this post</a> and <a href="https://github.com/roblanf/phypapers">documentation</a>, I built the initial version that used automation services like <em>dlvrit</em>, <em>IFTTT</em>, and <em>Zapier</em> to consume RSS feeds and publish the posts to Twitter.
+    It operated on Twitter from 2015 to 2023, until the hostile takeover of the platform.
+    Given the inevitable fate of the bird, I quickly setup a first version of the bot for the Fediverse, and posting to Mastodon began in 2022.
+    After a year of recurrent issues with this setup, I decided to rebuild the bot from scratch to improve its robustness, flexibility, and functionality.
+    The new version, based on the software stack below, has been running smoothly since 2024.
+    During 2025 I released several major updates to the codebase and website and implemented posting to Bluesky.
+  </p>
+  <h2>Software</h2>
   <ul>
     <li><a href="https://www.djangoproject.com">Django</a> (a Python web framework)</li>
     <li><a href="https://github.com/xurble/django-feed-reader">django-feed-reader</a> (a Django package for feed consumption)</li>
