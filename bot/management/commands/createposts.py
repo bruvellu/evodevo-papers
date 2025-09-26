@@ -11,7 +11,7 @@ from bot.models import Post
 class Command(BaseCommand):
     help = "Creates posts for new feed entries."
 
-    FILTERED_TITLE_TERMS = ["issue information", "front cover"]
+    FILTERED_TITLE_TERMS = ["issue information", "front cover", "erratum"]
 
     def handle(self, *args, **options):
         """
