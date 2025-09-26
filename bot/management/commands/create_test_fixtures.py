@@ -24,9 +24,10 @@ class Command(BaseCommand):
         os.makedirs(output_dir, exist_ok=True)
 
         # 1. Fetch 10 random posts
+        # TODO: Incorporate posts without entries on tests
         self.stdout.write("Fetching 10 random posts...")
         random_posts = (
-            Post.objects.select_related("entry__source__feed")
+            Post.objects.filter(entry__isnull=False)
             .prefetch_related("statuses")
             .order_by("?")[:10]
         )
@@ -44,10 +45,11 @@ class Command(BaseCommand):
         client_pks = []
 
         for post in random_posts:
+            print(post)
             post_pks.append(post.pk)
+            feed_pks.append(post.feed.pk)
             entry_pks.append(post.entry.pk)
             source_pks.append(post.entry.source.pk)
-            feed_pks.append(post.feed.pk)
             for status in post.statuses.all():
                 status_pks.append(status.pk)
                 client_pks.append(status.client.pk)
