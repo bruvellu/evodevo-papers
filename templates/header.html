@@ -1,3 +1,19 @@
 {% include 'nav.html' %}
 <div id="logo">📑 EvoDevo Papers</div>
 <p>Streaming the latest papers in evolutionary developmental biology</p>
+
+{% comment %}TODO: Move search to single button on menu, when clicked a floating search bar appears, typing autocompletes the list of posts{% endcomment %}
+
+<div id="search">
+<form id="search-form">
+  <input
+    type="text"
+    id="search-input"
+    placeholder="Search posts..."
+    required
+  >
+  <button type="submit">Search</button>
+</form>
+<div id="search-results"></div>
+</div>
+
