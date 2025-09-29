@@ -5,9 +5,11 @@
 {% block main %}
 <section>
   <h1 class="post-title">{{ post.title }}</h1>
-  <p><strong>Created:</strong> {{ post.created }}</p>
-  <p><strong>Link:</strong> {{ post.link|urlize }}</p>
-  <p><strong>Source:</strong> <a href="{{ post.feed.get_absolute_url }}">{{ post.feed.name }}</a></p>
-  <p><strong>Social:</strong> {% if post.has_published_statuses %}{% render_statuses_links post %}{% else %}No statuses published yet.{% endif %}
+  <p class="item">
+    <span><strong>Link:</strong> {{ post.link|urlize }}</span>
+    <span><strong>Source:</strong> <a href="{{ post.feed.get_absolute_url }}">{{ post.feed.name }}</a></span>
+    <span><strong>Created:</strong> {{ post.created }}</span>
+    <span><strong>Social:</strong> {% if post.has_published_statuses %}{% render_statuses_links post %}{% else %}No statuses published yet.{% endif %}</span>
+  </p>
 </section>
 {% endblock %}
