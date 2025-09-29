@@ -8,9 +8,7 @@
     font-weight: bold;
 }
 
-/*TODO: Style better the lists of posts*/
-
-#search-modal {
+#search-overlay {
   display: none;
   position: fixed;
   top: 0;
@@ -22,23 +20,23 @@
   padding: 1rem;
 }
 
-#search-modal.active {
+#search-overlay.active {
   display: block;
-  /*flex-direction: column;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
 }
 
-
-#search-form {
+#search-modal {
   position: relative;
   width: 30rem;
-  margin: 25vh auto 0; /* 25vh from the top, centered horizontally */
+  margin: 25vh auto 0;
+  color: var(--text);
   background: var(--bg);
   border-radius: var(--standard-border-radius);
   border: var(--border-width) solid var(--border);
   padding: 1rem;
-  /*margin-bottom: 1rem;*/
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+#search-form {
 }
 
 #search-results:not(:empty) {
@@ -46,43 +44,22 @@
 }
 
 #search-results {
-  display: none;
-  width: 30rem;
-  margin: 1rem auto 0; /* 1rem space from the form, centered horizontally */
-  background: var(--bg);
-  color: var(--text);
-  border-radius: var(--standard-border-radius);
-  border: var(--border-width) solid var(--border);
-  z-index: 1000;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
+  width: 25rem;
+  margin: 1rem auto 0;
   max-height: 30rem;
   overflow-y: auto;
-  padding: 1rem;
 }
 
 #search-results li {
   line-height: 1.5;
-  /*margin: 0;*/
-  /*padding: 0.5rem;*/
-  /*border-radius: var(--standard-border-radius);*/
 }
-
-#search-results p:hover {
-  /*background: var(--accent-bg);*/
-}
-
-#search-results a {
-  /*color: var(--text);*/
-  /*text-decoration: none;*/
-}
-
 
 header nav {
-  padding-bottom: 1rem;
+  padding-bottom: 1rem; /*Give more space to website name*/
 }
 
 header nav ul, header nav ol {
-  align-items: flex-start;
+  align-items: flex-start; /*Make search button top-aligned*/
 }
 
 .item {
