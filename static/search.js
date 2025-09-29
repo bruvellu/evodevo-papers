@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('search-clear').addEventListener('click', function() {
     document.getElementById('search-results').innerHTML = '';
     document.getElementById('search-count').textContent = '';
+    document.getElementById('search-input').focus();
     this.classList.remove('show');
   });
 
