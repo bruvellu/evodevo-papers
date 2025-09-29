@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
         # Fetch all posts
         self.stdout.write("Fetching posts...")
-        posts = Post.objects.values("id", "title", "link")
+        posts = Post.objects.values("id", "title")
         search_index = "search_index.json"
 
         # Write to a JSON file directly
