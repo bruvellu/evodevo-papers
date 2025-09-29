@@ -10,13 +10,35 @@
 
 /*TODO: Style better the lists of posts*/
 
-#search {
-  margin: 1rem auto;
-  width: 35rem;
-  position: relative;
+#search-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 999;
+  padding: 1rem;
 }
 
+#search-modal.active {
+  display: block;
+  /*flex-direction: column;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+}
+
+
 #search-form {
+  position: relative;
+  width: 30rem;
+  margin: 25vh auto 0; /* 25vh from the top, centered horizontally */
+  background: var(--bg);
+  border-radius: var(--standard-border-radius);
+  border: var(--border-width) solid var(--border);
+  padding: 1rem;
+  /*margin-bottom: 1rem;*/
 }
 
 #search-results:not(:empty) {
@@ -25,7 +47,8 @@
 
 #search-results {
   display: none;
-  position: absolute;
+  width: 30rem;
+  margin: 1rem auto 0; /* 1rem space from the form, centered horizontally */
   background: var(--bg);
   color: var(--text);
   border-radius: var(--standard-border-radius);
@@ -37,24 +60,29 @@
   padding: 1rem;
 }
 
-#search-results p {
-  margin: 0;
-  padding: 0.5rem;
-  border-radius: var(--standard-border-radius);
+#search-results li {
+  line-height: 1.5;
+  /*margin: 0;*/
+  /*padding: 0.5rem;*/
+  /*border-radius: var(--standard-border-radius);*/
 }
 
 #search-results p:hover {
-  background: var(--accent-bg);
+  /*background: var(--accent-bg);*/
 }
 
 #search-results a {
-  color: var(--text);
-  text-decoration: none;
+  /*color: var(--text);*/
+  /*text-decoration: none;*/
 }
 
 
 header nav {
   padding-bottom: 1rem;
+}
+
+header nav ul, header nav ol {
+  align-items: flex-start;
 }
 
 .item {

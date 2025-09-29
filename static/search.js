@@ -198,6 +198,26 @@
     //console.error('Error:', error);
   //});
 
+document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.getElementById('search-button');
+  const searchModal = document.getElementById('search-modal');
+
+  searchButton.addEventListener('click', () => {
+    searchModal.classList.add('active');
+    document.getElementById('search-input').focus();
+  });
+
+  // Close modal when clicking outside the form
+  searchModal.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      searchModal.classList.remove('active');
+    }
+  });
+});
+
+
+
+
 //TODO: Revise and clean up this search functions
 
 // Store data globally for mapping
@@ -260,13 +280,30 @@ fetch('/static/search_index.json')
       if (results.length === 0) {
         container.innerHTML = '<p>No results found.</p>';
       } else {
+        const ul = document.createElement('ul');
         results.forEach(item => {
-          const p = document.createElement('p');
-          p.innerHTML = `<a href="/post/${item.id}">${item.title}</a>`;
-          container.appendChild(p);
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="/post/${item.id}">${item.title}</a>`;
+          ul.appendChild(li);
         });
+        container.appendChild(ul);
       }
     }
+
+    //function displayResults(results) {
+      //const container = document.getElementById('search-results');
+      //container.innerHTML = '';
+      //if (results.length === 0) {
+        //container.innerHTML = '<p>No results found.</p>';
+      //} else {
+        //results.forEach(item => {
+          //const p = document.createElement('p');
+          //p.innerHTML = `<a href="/post/${item.id}">${item.title}</a>`;
+          //container.appendChild(p);
+        //});
+      //}
+    //}
+
   })
   .catch(error => {
     console.error('Error:', error);
