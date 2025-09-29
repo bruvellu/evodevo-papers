@@ -1,3 +1,10 @@
+// Logic to handle search indexing and functionality
+//
+// Uses the library FlexSearch for searching:
+// https://github.com/nextapps-de/flexsearch
+//
+// Code created with LLM-assistance (I don't like JavaScript).
+
 // Wrap everything in an IIFE to avoid polluting global scope
 // See: https://developer.mozilla.org/en-US/docs/Glossary/IIFE
 (function() {
@@ -18,9 +25,7 @@
     minQueryLength: 2   // minimum characters before triggering live search
   };
 
-  /**
-   * Initialize search functionality
-   */
+  // Initialize search functionality
   function initializeSearch() {
     // Cache DOM elements
     elements = {
@@ -49,9 +54,7 @@
     loadSearchIndex();
   }
 
-  /**
-   * Set up all event listeners
-   */
+  // Set up all event listeners
   function setupEventListeners() {
     // Open search overlay
     elements.searchButton.addEventListener('click', () => {
@@ -101,9 +104,7 @@
     });
   }
 
-  /**
-   * Handle live search with debouncing
-   */
+  // Handle live search with debouncing
   function handleLiveSearch() {
     const query = elements.searchInput.value.trim();
 
@@ -126,9 +127,7 @@
     }, CONFIG.debounceDelay);
   }
 
-  /**
-   * Load and initialize the search index
-   */
+  // Load and initialize the search index
   function loadSearchIndex() {
     fetch('/static/search_index.json')
       .then(response => {
@@ -188,11 +187,9 @@
       });
   }
 
-  /**
-   * Perform a search query
-   * @param {string} query - Optional query string (uses input value if not provided)
-   * @returns {Array} Search results with query for highlighting
-   */
+  // Perform a search query
+  // @param {string} query - Optional query string (uses input value if not provided)
+  // @returns {Array} Search results with query for highlighting
   function performSearchQuery(query) {
     if (!isInitialized) {
       console.warn('Search not yet initialized');
@@ -227,9 +224,7 @@
     }
   }
 
-  /**
-   * Perform search and display results
-   */
+  // Perform search and display results
   function performSearch() {
     const query = elements.searchInput.value.trim();
 
@@ -249,52 +244,49 @@
     displayResults(results, searchQuery);
   }
 
-  /**
-   * Highlight matching text in a string
-   * @param {string} text - Text to highlight in
-   * @param {string} query - Query to highlight
-   * @returns {string} HTML string with highlighted matches
-   */
+  // Highlight matching text in a string
+  // @param {string} text - Text to highlight in
+  // @param {string} query - Query to highlight
+  // @returns {string} HTML string with highlighted matches
   function highlightMatches(text, query) {
     if (!query || !text) {
       return escapeHtml(text);
     }
 
-    const escapedText = escapeHtml(text);
-    const escapedQuery = escapeRegExp(query);
+    let escapedText = escapeHtml(text);
     
-    // Create regex for case-insensitive matching
-    const regex = new RegExp(`(${escapedQuery})`, 'gi');
+    // Split query into individual words
+    const words = query.trim().split(/\s+/).filter(word => word.length > 0);
     
-    // Replace matches with highlighted span
-    return escapedText.replace(regex, '<mark>$1</mark>');
+    // Highlight each word separately
+    words.forEach(word => {
+      const escapedWord = escapeRegExp(word);
+      const regex = new RegExp(`(${escapedWord})`, 'gi');
+      escapedText = escapedText.replace(regex, '<mark>$1</mark>');
+    });
+    
+    return escapedText;
   }
 
-  /**
-   * Escape HTML special characters
-   * @param {string} text - Text to escape
-   * @returns {string} Escaped text
-   */
+  // Escape HTML special characters
+  // @param {string} text - Text to escape
+  // @returns {string} Escaped text
   function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   }
 
-  /**
-   * Escape special regex characters
-   * @param {string} str - String to escape
-   * @returns {string} Escaped string
-   */
+  // Escape special regex characters
+  // @param {string} str - String to escape
+  // @returns {string} Escaped string
   function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  /**
-   * Display search results
-   * @param {Array} results - Array of search result objects
-   * @param {string} query - Search query for highlighting
-   */
+  // Display search results
+  // @param {Array} results - Array of search result objects
+  // @param {string} query - Search query for highlighting
   function displayResults(results, query) {
     elements.searchResults.innerHTML = '';
 
@@ -326,19 +318,15 @@
     elements.searchClear.classList.add('show');
   }
 
-  /**
-   * Show error message to user
-   * @param {string} message - Error message to display
-   */
+  // Show error message to user
+  // @param {string} message - Error message to display
   function showSearchError(message) {
     if (elements.searchResults) {
       elements.searchResults.innerHTML = `<p class="error">${escapeHtml(message)}</p>`;
     }
   }
 
-  /**
-   * Clear search results
-   */
+  // Clear search results
   function clearSearchResults() {
     elements.searchInput.value = '';
     elements.searchResults.innerHTML = '';
@@ -351,9 +339,7 @@
     }
   }
 
-  /**
-   * Close search overlay
-   */
+  // Close search overlay
   function closeSearchOverlay() {
     elements.searchOverlay.classList.remove('show');
   }
@@ -366,6 +352,4 @@
   }
 
 })();
-
-
 
