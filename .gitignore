@@ -1,8 +1,10 @@
 __pycache__
+.idea
 Makefile
+justfile
 backups
 cron.sh
 db.sqlite3
 website
 bot/fixtures
-.idea
+static/search_index.json
