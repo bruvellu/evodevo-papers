@@ -3,17 +3,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchOverlay = document.getElementById('search-overlay');
 
   searchButton.addEventListener('click', () => {
-    searchOverlay.classList.add('active');
+    searchOverlay.classList.add('show');
     document.getElementById('search-input').focus();
   });
 
   // Close modal when clicking outside the form
   searchOverlay.addEventListener('click', (e) => {
     if (e.target === searchOverlay) {
-      searchOverlay.classList.remove('active');
+      searchOverlay.classList.remove('show');
     }
   });
+
+  document.getElementById('search-clear').addEventListener('click', function() {
+    document.getElementById('search-results').innerHTML = '';
+    document.getElementById('search-count').textContent = '';
+    this.classList.remove('show');
+  });
+
 });
+
 
 
 
@@ -75,10 +83,15 @@ fetch('/static/search_index.json')
 
     function displayResults(results) {
       const container = document.getElementById('search-results');
+      const countElement = document.getElementById('search-count');
+      const clearButton = document.getElementById('search-clear');
       container.innerHTML = '';
       if (results.length === 0) {
         container.innerHTML = '<p>No results found.</p>';
+        countElement.textContent = '';
+        clearButton.classList.remove('show');
       } else {
+        countElement.textContent = `${results.length} results`;
         const ul = document.createElement('ul');
         results.forEach(item => {
           const li = document.createElement('li');
@@ -86,8 +99,10 @@ fetch('/static/search_index.json')
           ul.appendChild(li);
         });
         container.appendChild(ul);
+        clearButton.classList.add('show');
       }
     }
+
   })
   .catch(error => {
     console.error('Error:', error);

@@ -20,14 +20,14 @@
   padding: 1rem;
 }
 
-#search-overlay.active {
+#search-overlay.show {
   display: block;
 }
 
 #search-modal {
   position: relative;
   width: 30rem;
-  margin: 25vh auto 0;
+  margin: 20vh auto 0;
   color: var(--text);
   background: var(--bg);
   border-radius: var(--standard-border-radius);
@@ -37,6 +37,27 @@
 }
 
 #search-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+#search-input {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+#search-count {
+  color: var(--text-light);
+}
+
+#search-clear {
+  display: none;
+}
+
+#search-clear.show {
+  display: inline;
 }
 
 #search-results:not(:empty) {
@@ -44,7 +65,7 @@
 }
 
 #search-results {
-  width: 25rem;
+  display: none;
   margin: 1rem auto 0;
   max-height: 30rem;
   overflow-y: auto;

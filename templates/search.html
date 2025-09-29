@@ -3,9 +3,11 @@
 <div id="search-overlay">
   <div id="search-modal">
     <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search posts..." required autofocus>
+      <input type="text" id="search-input" placeholder="Search posts..." required autofocus autocomplete="off">
       <button type="submit">Search</button>
+      <button type="reset" id="search-clear">Clear</button>
     </form>
+    <span id="search-count"></span>
     <div id="search-results"></div>
   </div>
 </div>
