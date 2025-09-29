@@ -75,6 +75,10 @@
   line-height: 1.5;
 }
 
+#search-results mark {
+  padding: 0;
+}
+
 header nav {
   padding-bottom: 1rem; /*Give more space to website name*/
 }

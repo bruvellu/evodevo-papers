@@ -7,11 +7,20 @@
   let index = null;
   let data = null;
   let isInitialized = false;
+  let searchTimeout = null;
 
   // DOM elements (cached)
   let elements = {};
 
-  // Initialize search functionality
+  // Configuration
+  const CONFIG = {
+    debounceDelay: 10, // ms to wait before searching as user types
+    minQueryLength: 2   // minimum characters before triggering live search
+  };
+
+  /**
+   * Initialize search functionality
+   */
   function initializeSearch() {
     // Cache DOM elements
     elements = {
@@ -40,7 +49,9 @@
     loadSearchIndex();
   }
 
-  // Set up all event listeners
+  /**
+   * Set up all event listeners
+   */
   function setupEventListeners() {
     // Open search overlay
     elements.searchButton.addEventListener('click', () => {
@@ -70,13 +81,19 @@
       elements.searchInput.focus();
     });
 
-    // Handle search form submission
+    // Handle search form submission (still needed for Enter key)
     elements.searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
       performSearch();
     });
 
-    // Add escape key to close overlay
+    // Live search - search as user types
+    elements.searchInput.addEventListener('input', handleLiveSearch);
+
+    // Escape key to close overlay
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && elements.searchOverlay.classList.contains('show')) {
         closeSearchOverlay();
@@ -84,7 +101,34 @@
     });
   }
 
-  // Load and initialize the search index
+  /**
+   * Handle live search with debouncing
+   */
+  function handleLiveSearch() {
+    const query = elements.searchInput.value.trim();
+
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    // Clear results if query is too short (but don't clear the input!)
+    if (query.length < CONFIG.minQueryLength) {
+      elements.searchResults.innerHTML = '';
+      elements.searchCount.textContent = '';
+      elements.searchClear.classList.remove('show');
+      return;
+    }
+
+    // Debounce: wait for user to stop typing
+    searchTimeout = setTimeout(() => {
+      performSearch();
+    }, CONFIG.debounceDelay);
+  }
+
+  /**
+   * Load and initialize the search index
+   */
   function loadSearchIndex() {
     fetch('/static/search_index.json')
       .then(response => {
@@ -105,15 +149,26 @@
           throw new Error('FlexSearch library not loaded');
         }
 
-        // Initialize FlexSearch
+        // Initialize FlexSearch with fuzzy matching
         index = new FlexSearch.Document({
           document: {
             id: "id",
-            index: ["title"],
+            index: ["title"]
           },
-          // Add tokenizer settings for better search
           tokenize: "forward",
-          resolution: 3
+          resolution: 3,
+          // Enable fuzzy matching
+          matcher: {
+            // Allow 1 character difference for fuzzy matching
+            threshold: 1,
+            depth: 3
+          },
+          // Optimize for partial matching
+          context: {
+            resolution: 3,
+            depth: 2,
+            bidirectional: true
+          }
         });
 
         // Add all items to index
@@ -133,23 +188,30 @@
       });
   }
 
-  // Perform a search query
-  // @param {string} query - Optional query string (uses input value if not provided)
-  // @returns {Array} Search results
+  /**
+   * Perform a search query
+   * @param {string} query - Optional query string (uses input value if not provided)
+   * @returns {Array} Search results with query for highlighting
+   */
   function performSearchQuery(query) {
     if (!isInitialized) {
       console.warn('Search not yet initialized');
-      return [];
+      return { results: [], query: '' };
     }
 
     const searchQuery = query || elements.searchInput.value.trim();
     
     if (!searchQuery) {
-      return [];
+      return { results: [], query: '' };
     }
 
     try {
-      const results = index.search(searchQuery);
+      const results = index.search(searchQuery, {
+        // Limit results for better performance
+        limit: 50,
+        // Enable fuzzy matching
+        suggest: true
+      });
       
       // Map results to full data objects
       const mappedResults = results.flatMap(result => {
@@ -158,19 +220,23 @@
         }).filter(Boolean); // Remove any undefined results
       });
 
-      return mappedResults;
+      return { results: mappedResults, query: searchQuery };
     } catch (error) {
       console.error('Search error:', error);
-      return [];
+      return { results: [], query: searchQuery };
     }
   }
 
-  // Perform search and display results
+  /**
+   * Perform search and display results
+   */
   function performSearch() {
     const query = elements.searchInput.value.trim();
 
-    if (!query) {
-      clearSearchResults();
+    if (!query || query.length < CONFIG.minQueryLength) {
+      if (!query) {
+        clearSearchResults();
+      }
       return;
     }
 
@@ -179,13 +245,57 @@
       return;
     }
 
-    const results = performSearchQuery(query);
-    displayResults(results);
+    const { results, query: searchQuery } = performSearchQuery(query);
+    displayResults(results, searchQuery);
   }
 
-  // Display search results
-  // @param {Array} results - Array of search result objects
-  function displayResults(results) {
+  /**
+   * Highlight matching text in a string
+   * @param {string} text - Text to highlight in
+   * @param {string} query - Query to highlight
+   * @returns {string} HTML string with highlighted matches
+   */
+  function highlightMatches(text, query) {
+    if (!query || !text) {
+      return escapeHtml(text);
+    }
+
+    const escapedText = escapeHtml(text);
+    const escapedQuery = escapeRegExp(query);
+    
+    // Create regex for case-insensitive matching
+    const regex = new RegExp(`(${escapedQuery})`, 'gi');
+    
+    // Replace matches with highlighted span
+    return escapedText.replace(regex, '<mark>$1</mark>');
+  }
+
+  /**
+   * Escape HTML special characters
+   * @param {string} text - Text to escape
+   * @returns {string} Escaped text
+   */
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  /**
+   * Escape special regex characters
+   * @param {string} str - String to escape
+   * @returns {string} Escaped string
+   */
+  function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /**
+   * Display search results
+   * @param {Array} results - Array of search result objects
+   * @param {string} query - Search query for highlighting
+   */
+  function displayResults(results, query) {
     elements.searchResults.innerHTML = '';
 
     if (results.length === 0) {
@@ -204,7 +314,10 @@
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.href = `/post/${item.id}`;
-      a.textContent = item.title;
+      
+      // Highlight matches in title
+      a.innerHTML = highlightMatches(item.title, query);
+      
       li.appendChild(a);
       ul.appendChild(li);
     });
@@ -213,23 +326,34 @@
     elements.searchClear.classList.add('show');
   }
 
-  // Show error message to user
-  // @param {string} message - Error message to display
+  /**
+   * Show error message to user
+   * @param {string} message - Error message to display
+   */
   function showSearchError(message) {
     if (elements.searchResults) {
-      elements.searchResults.innerHTML = `<p class="error">${message}</p>`;
+      elements.searchResults.innerHTML = `<p class="error">${escapeHtml(message)}</p>`;
     }
   }
 
-  // Clear search results
+  /**
+   * Clear search results
+   */
   function clearSearchResults() {
     elements.searchInput.value = '';
     elements.searchResults.innerHTML = '';
     elements.searchCount.textContent = '';
     elements.searchClear.classList.remove('show');
+    
+    // Clear any pending search timeouts
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
   }
 
-  // Close search overlay
+  /**
+   * Close search overlay
+   */
   function closeSearchOverlay() {
     elements.searchOverlay.classList.remove('show');
   }
@@ -242,3 +366,6 @@
   }
 
 })();
+
+
+
