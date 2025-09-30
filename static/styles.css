@@ -120,6 +120,10 @@ h1.post-title {
 }
 
 @media (width <= 640px) {
-  #emoji { display: none; }
+  #emoji {
+    display: none;
+  }
+  #search-results {
+    max-height: 20rem;
+  }
 }
-
