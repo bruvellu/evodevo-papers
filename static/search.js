@@ -41,7 +41,7 @@
     // Validate required elements exist
     const requiredElements = ['searchButton', 'searchOverlay', 'searchInput', 'searchForm'];
     const missingElements = requiredElements.filter(key => !elements[key]);
-    
+
     if (missingElements.length > 0) {
       console.error('Search initialization failed: Missing elements:', missingElements);
       return;
@@ -172,7 +172,7 @@
 
         // Add all items to index
         data.forEach(item => index.add(item));
-        
+
         isInitialized = true;
         console.log('Search initialized. Indexed items:', data.length);
 
@@ -197,7 +197,7 @@
     }
 
     const searchQuery = query || elements.searchInput.value.trim();
-    
+
     if (!searchQuery) {
       return { results: [], query: '' };
     }
@@ -207,7 +207,7 @@
         limit: 50,
         suggest: false
       });
-      
+
       // Map results to full data objects
       const mappedResults = results.flatMap(result => {
         return result.result.map(id => {
@@ -252,17 +252,17 @@
     }
 
     let escapedText = escapeHtml(text);
-    
+
     // Split query into individual words
     const words = query.trim().split(/\s+/).filter(word => word.length > 0);
-    
+
     // Highlight each word separately
     words.forEach(word => {
       const escapedWord = escapeRegExp(word);
       const regex = new RegExp(`(${escapedWord})`, 'gi');
       escapedText = escapedText.replace(regex, '<mark>$1</mark>');
     });
-    
+
     return escapedText;
   }
 
@@ -304,10 +304,10 @@
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.href = `/post/${item.id}`;
-      
+
       // Highlight matches in title
       a.innerHTML = highlightMatches(item.title, query);
-      
+
       li.appendChild(a);
       ul.appendChild(li);
     });
@@ -330,7 +330,7 @@
     elements.searchResults.innerHTML = '';
     elements.searchCount.textContent = '';
     elements.searchClear.classList.remove('show');
-    
+
     // Clear any pending search timeouts
     if (searchTimeout) {
       clearTimeout(searchTimeout);
