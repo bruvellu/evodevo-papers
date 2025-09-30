@@ -204,10 +204,8 @@
 
     try {
       const results = index.search(searchQuery, {
-        // Limit results for better performance
         limit: 50,
-        // Enable fuzzy matching
-        suggest: true
+        suggest: false
       });
       
       // Map results to full data objects
