@@ -118,3 +118,8 @@ header nav ul, header nav ol {
 h1.post-title {
   font-size: 2rem;
 }
+
+@media (max-width: 640px) {
+  #emoji { display: none; }
+}
+
