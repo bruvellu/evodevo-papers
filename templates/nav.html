@@ -6,6 +6,8 @@
     <li><a href="/feeds/" class="{% if path == "/feeds/" %}current{% endif %}">Feeds</a></li>
     <li><a href="/posts/" class="{% if path == "/posts/" %}current{% endif %}">Posts</a></li>
     {% endwith %}
+  </ul>
+  <ul>
     <li><a href="/rss/" title="EvoDevo Papers RSS feed">{% include 'icon_feed.html' %}</a></li>
     <li><a rel="me" href="https://biologists.social/@evodevo_papers" title="EvoDevo Papers on Mastodon">{% include 'icon_mastodon.html' %}</a></li>
     <li><a rel="me" href="https://bsky.app/profile/evodevo-papers.bsky.social" title="EvoDevo Papers on Bluesky">{% include 'icon_bluesky.html' %}</a></li>

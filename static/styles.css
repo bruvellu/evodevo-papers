@@ -80,6 +80,9 @@
 }
 
 header nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   padding-bottom: 1rem; /*Give more space to website name*/
 }
 
