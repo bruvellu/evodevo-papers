@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -31,8 +31,8 @@ class Command(BaseCommand):
 
         # Write to a JSON file directly
         self.stdout.write("Writing index...")
-        with open(f'{output_dir}/{search_index}', 'w') as json_file:
-            json.dump(list(posts), json_file, indent=4) 
+        with open(f"{output_dir}/{search_index}", "w") as json_file:
+            json.dump(list(posts), json_file, indent=4)
 
         self.stdout.write(
             self.style.SUCCESS(f"Successfully created {search_index} in {output_dir}")
