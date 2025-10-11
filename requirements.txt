@@ -1,4 +1,4 @@
-django==5.2.6
+django==5.2.7
 django-feed-reader==2.0.0
 django-distill==3.2.7
 Mastodon.py==2.1.3
