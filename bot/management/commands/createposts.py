@@ -47,7 +47,7 @@ class Command(BaseCommand):
         Order entries by creation date (oldest first).
         """
         # Get the entry IDs of existing posts
-        entries_with_posts = Post.objects.values_list("entry_id", flat=True)
+        entries_with_posts = Post.objects.filter(entry__isnull=False).values_list("entry", flat=True)
 
         # Exclude entries that already have a Post instance
         entries_without_a_post = Entry.objects.exclude(id__in=entries_with_posts)
@@ -87,21 +87,20 @@ class Command(BaseCommand):
 
     def is_duplicate(self, entry):
         """Check if a post already exists for an entry."""
+
         # TODO: Create test for duplicate detection
-        posts_with_identical_title = Post.objects.filter(title=entry.title)
+        posts_with_identical_title = Post.objects.filter(title=entry.title, entry__isnull=False)
         for post in posts_with_identical_title:
-            self.stdout.write(f"\n{entry.title}")
-            self.stdout.write(
-                f"Sources: entry='{entry.source}', post='{post.entry.source}'"
-            )
+            self.stdout.write(self.style.WARNING(f"\nPotential duplicate!"))
+            self.stdout.write(f"{entry}")
+            self.stdout.write(f"{post}")
+            self.stdout.write(f"Entry='{entry.source}'")
+            self.stdout.write(f"Post ='{post.entry.source}'")
+
             if not entry.source == post.entry.source:
-                self.stdout.write(
-                    self.style.WARNING(
-                        f"Different sources. Potential duplicate! Skipping..."
-                    )
-                )
+                self.stdout.write(self.style.NOTICE(f"Same title, different sources. It is a duplicate...\n"))
                 return True
-            self.stdout.write(
-                self.style.WARNING(f"Same title and source. Likely not a duplicate...")
-            )
+
+            self.stdout.write(self.style.SUCCESS(f"Same title, same source. Not a duplicate...\n"))
+
         return False
