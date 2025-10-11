@@ -47,7 +47,9 @@ class Command(BaseCommand):
         Order entries by creation date (oldest first).
         """
         # Get the entry IDs of existing posts
-        entries_with_posts = Post.objects.filter(entry__isnull=False).values_list("entry", flat=True)
+        entries_with_posts = Post.objects.filter(entry__isnull=False).values_list(
+            "entry", flat=True
+        )
 
         # Exclude entries that already have a Post instance
         entries_without_a_post = Entry.objects.exclude(id__in=entries_with_posts)
@@ -89,7 +91,10 @@ class Command(BaseCommand):
         """Check if a post already exists for an entry."""
 
         # TODO: Create test for duplicate detection
-        posts_with_identical_title = Post.objects.filter(title=entry.title, entry__isnull=False)
+        posts_with_identical_title = Post.objects.filter(
+            title=entry.title, entry__isnull=False
+        )
+
         for post in posts_with_identical_title:
             self.stdout.write(self.style.WARNING(f"\nPotential duplicate!"))
             self.stdout.write(f"{entry}")
@@ -97,10 +102,18 @@ class Command(BaseCommand):
             self.stdout.write(f"Entry='{entry.source}'")
             self.stdout.write(f"Post ='{post.entry.source}'")
 
+            # Example: same article coming from journal and pubmed feeds
             if not entry.source == post.entry.source:
-                self.stdout.write(self.style.NOTICE(f"Same title, different sources. It is a duplicate...\n"))
+                self.stdout.write(
+                    self.style.NOTICE(
+                        f"Same title, different sources. It is a duplicate...\n"
+                    )
+                )
                 return True
 
-            self.stdout.write(self.style.SUCCESS(f"Same title, same source. Not a duplicate...\n"))
+            # Example: article series with the same name (in the spotlight)
+            self.stdout.write(
+                self.style.SUCCESS(f"Same title, same source. Not a duplicate...\n")
+            )
 
         return False
