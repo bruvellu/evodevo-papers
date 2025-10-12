@@ -91,6 +91,12 @@ class Command(BaseCommand):
         """Check if a post already exists for an entry."""
 
         # TODO: Create test for duplicate detection
+
+        # TODO: This function cannot detect when duplicate entries are created
+        # on the same createposts batch as they are checking for Post objects
+        # with the same name and neither will find each other as they have not
+        # been created yet.
+
         posts_with_identical_title = Post.objects.filter(
             title=entry.title, entry__isnull=False
         )
