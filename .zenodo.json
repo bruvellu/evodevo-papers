@@ -1,7 +1,7 @@
 {
     "upload_type": "software",
     "title": "EvoDevo Papers: a literature bot for evolutionary developmental biology",
-    "description": "EvoDevo Papers is a literature bot for evolutionary developmental biology. It keeps track of newly-published scientific articles in the field and shares them on various social media accounts with a slight hint of randomness, providing a great way to follow the latest publications or discover new works on EvoDevo. All the content is browsable and searchable on the website: <a href=\"https://evodevo.brunovellutini.com/\">evodevo.brunovellutini.com</a>\"",
+    "description": "EvoDevo Papers is a literature bot for evolutionary developmental biology. It keeps track of newly-published scientific articles in the field and shares them on various social media accounts with a slight hint of randomness, providing a great way to follow the latest publications or discover new works on EvoDevo. All the content is browsable and searchable on the website: <a href=\"https://evodevo.brunovellutini.com/\">evodevo.brunovellutini.com</a>",
     "creators": [
         {
             "name": "Vellutini, Bruno C.",
@@ -12,7 +12,6 @@
             ]
         }
     ],
-    "publication_date": "2023-04-07",
     "keywords": [
         "EvoDevo",
         "Evolutionary Developmental Biology",
