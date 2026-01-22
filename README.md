@@ -1,4 +1,4 @@
-# :bookmark_tabs: EvoDevo Papers
+# 📑 EvoDevo Papers
 
 A literature bot that shares research papers in the field of evolutionary developmental biology (or evo-devo).
 
@@ -8,9 +8,24 @@ A literature bot that shares research papers in the field of evolutionary develo
 
 ## Maintainer
 
-- [**Bruno C. Vellutini**](https://brunovellutini.com/) | [@bruvellu@biologists.social](https://biologists.social/@bruvellu)
+- [**Bruno C. Vellutini**](https://brunovellutini.com/)
+- Federal University of Minas Gerais (UFMG)
+- [@bruvellu@biologists.social](https://biologists.social/@bruvellu)
+- [@bruvellu.bsky.social](https://bksy.app/profile/bruvellu.bsky.social)
+
+## Citation
+
+Vellutini, B. C. (2026). EvoDevo Papers: a literature bot for evolutionary developmental biology. Zenodo. https://doi.org/10.5281/zenodo.18238617
 
 ## Acknowledgments
 
 - Inspired by [@fly_papers](https://twitter.com/fly_papers) and [@phy_papers](https://twitter.com/phy_papers).
-- Powered by [Django](https://www.djangoproject.com), [django-feed-reader](https://github.com/xurble/django-feed-reader), [django-distill](https://django-distill.com/), [Mastodon.py](https://github.com/halcy/Mastodon.py), [ATProto](https://atproto.blue/), [Simple.css](https://simplecss.org), [Bootstrap Icons](https://icons.getbootstrap.com), and [FlexSearch](https://github.com/nextapps-de/flexsearch).
+- Powered by:
+  - [Django](https://www.djangoproject.com)
+  - [django-feed-reader](https://github.com/xurble/django-feed-reader)
+  - [django-distill](https://django-distill.com/)
+  - [Mastodon.py](https://github.com/halcy/Mastodon.py)
+  - [ATProto](https://atproto.blue/)
+  - [Simple.css](https://simplecss.org)
+  - [Bootstrap Icons](https://icons.getbootstrap.com)
+  - [FlexSearch](https://github.com/nextapps-de/flexsearch)
