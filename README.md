@@ -8,7 +8,7 @@ A literature bot that shares research papers in the field of evolutionary develo
 
 ## Maintainer
 
-- [**Bruno C. Vellutini**](https://brunovellutini.com/) (Federal University of Minas Gerais, Brazil)
+[**Bruno C. Vellutini**](https://brunovellutini.com/) (Federal University of Minas Gerais, Brazil)
 
 ## Citation
 
@@ -16,5 +16,4 @@ Vellutini, B. C. (2026). EvoDevo Papers: a literature bot for evolutionary devel
 
 ## Acknowledgments
 
-- Inspired by [@fly_papers](https://twitter.com/fly_papers) and [@phy_papers](https://twitter.com/phy_papers).
-- Powered by [Django](https://www.djangoproject.com), [django-feed-reader](https://github.com/xurble/django-feed-reader), [django-distill](https://django-distill.com/), [Mastodon.py](https://github.com/halcy/Mastodon.py), [ATProto](https://atproto.blue/), [Simple.css](https://simplecss.org), [Bootstrap Icons](https://icons.getbootstrap.com), and [FlexSearch](https://github.com/nextapps-de/flexsearch).
+Inspired by [@fly_papers](https://twitter.com/fly_papers) and [@phy_papers](https://twitter.com/phy_papers). Powered by [Django](https://www.djangoproject.com), [django-feed-reader](https://github.com/xurble/django-feed-reader), [django-distill](https://django-distill.com/), [Mastodon.py](https://github.com/halcy/Mastodon.py), [ATProto](https://atproto.blue/), [Simple.css](https://simplecss.org), [Bootstrap Icons](https://icons.getbootstrap.com), and [FlexSearch](https://github.com/nextapps-de/flexsearch).
